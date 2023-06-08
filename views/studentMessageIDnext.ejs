@@ -1,0 +1,338 @@
+<link rel="stylesheet" href="/studentMessageID.css">
+<%- include('partials/header'); -%>
+<input type="text" style="display: none" value="<%= user._id %>" class="catchUserID">
+
+<div class="chatDivMainContainer">
+<div class="chatDivContainer">
+
+    <div class="mainChatBox">
+            <div class="mainChatBoxLeftSide">
+                <div class="mainChatBoxLeftSideTop">
+                     <input type="text"  class="mainChatBoxLeftSideTopInput" placeholder="Search by name" id="searchInput">
+                </div>
+               
+          
+                <div class="mainChatBoxLeftSideBottom">
+                             
+                      
+                </div>
+            </div>
+
+            <div class="mainChatBoxRightSideFlex">
+              <div class="mainChatBoxRightSideTop">
+                <div class="mainChatBoxLeftSideTopName">
+                  <h2 class="mainChatBoxLeftSideTopNameH2"> </h2> 
+                
+                </div>
+                <div class="hidingArrow" ><h1 onclick="hideDiv()"><</h1>  </div>
+          
+            </div>
+
+            <div class="mainChatBoxRightSide">
+
+                    
+                <div class="mainChatBoxRightSideChatArea">
+         
+
+                </div>
+    </div>
+        <div class="chatInputButton">
+          <textarea class="chatInput" name="" id="" maxlength="500"></textarea>
+
+            <input type="button" class="sendChat" value="Send" onclick="saveChatMessagetoThread()">
+        </div>
+    </div>
+</div>
+  
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script>
+
+const mainChatBoxLeftSideTopNameH2 = document.querySelector('.mainChatBoxLeftSideTopNameH2')
+
+  const searchInput = document.getElementById("searchInput");
+
+    searchInput.addEventListener("input", function() {
+      enforceMaxLength(this, 50);
+    });
+
+    function enforceMaxLength(input, maxLength) {
+      if (input.value.length > maxLength) {
+        input.value = input.value.slice(0, maxLength);
+      }
+    }
+
+let catchUserID = document.querySelector('.catchUserID')
+let userID = catchUserID.value
+
+let messageId;
+
+const mainChatBoxLeftSideTopInput = document.querySelector('.mainChatBoxLeftSideTopInput')
+const mainChatBoxLeftSideBottom = document.querySelector('.mainChatBoxLeftSideBottom');
+const mainChatBoxRightSideChatArea = document.querySelector('.mainChatBoxRightSideChatArea')
+
+
+
+
+let filteredArray = []; // Array to store the filtered messages
+
+function filterMessages() {
+  const searchTerm = mainChatBoxLeftSideTopInput.value.toLowerCase();
+
+  filteredArray = messagesArrayUpdate.filter(element => {
+    const fullName = `${element.senderFirstName} ${element.senderLastName}`.toLowerCase();
+    return fullName.includes(searchTerm);
+  });
+
+  displayFilteredMessages();
+}
+
+const messagesArrayUpdate = JSON.parse('<%- messagesArrayUpdate %>');
+let html = '';
+let html2 = '';
+
+messagesArrayUpdate.sort((a, b) => moment(b.createdAt) - moment(a.createdAt));
+ 
+
+
+const url = new URL(window.location.href);
+const messageParamID = url.pathname.split("/").pop();
+
+
+
+     messagesArrayUpdate.forEach(element => {
+      if (messageParamID == element._id) {
+
+
+            mainChatBoxLeftSideTopNameH2.innerHTML = element.senderFirstName
+          
+         html2 += `
+          <div class="mainChatBoxRightSideChatAreaStudentMain"   >
+            <div class="mainChatBoxRightSideBottomBoxImg" >
+              <img src="${element.senderImgProfile}" alt="" class="mainChatBoxRightSideBottomBoxImgTag">
+            </div>
+            <div class="mainChatBoxRightSideChatAreaStudent">
+              <p class="mainChatBoxRightSideBottomBoxDate">${moment(element.createdAt).format('DD:MM HH:mm')}</p>
+              <p class="mainChatBoxRightSideChatAreaStudentPtag">
+                ${element.message}
+              </p> 
+            </div>
+          </div>
+        `;
+      
+        element.threads.map(element2=>{
+
+          if (element2.sender != userID) {
+
+
+            html2 += `
+                            <div class="mainChatBoxRightSideChatAreaStudentMain">
+                             <div class="mainChatBoxRightSideBottomBoxImg"> 
+                                
+                                <img src="${element.senderImgProfile}" alt="" class="mainChatBoxRightSideBottomBoxImgTag">
+                                </div>
+                                <div class="mainChatBoxRightSideChatAreaStudent">
+                                  <p class="mainChatBoxRightSideBottomBoxDate">${moment(element2.createdAt).format('DD:MM HH:mm')}</p>
+                         
+                                  <p class="mainChatBoxRightSideChatAreaStudentPtag">
+                                    ${element2.message}
+                                </p> 
+                                </div>
+                            </div>
+            `;
+              } else {
+          html2 += `
+          <div class="mainChatBoxRightSideChatAreaTeacherMain" >
+                             <div class="mainChatBoxRightSideBottomBoxImg">
+                                     <img src="${element.receiverImgProfile}" alt="" class="mainChatBoxRightSideBottomBoxImgTag">
+                                </div>
+                              <div class="mainChatBoxRightSideChatAreaTeacher">
+                                <p class="mainChatBoxRightSideBottomBoxDate">${moment(element2.createdAt).format('DD:MM HH:mm')}</p>
+                     
+                                <p class="mainChatBoxRightSideChatAreaTeacherPtag">
+                                       ${element2.message}
+                                        </p> 
+                             
+                                     </div>
+                            </div> 
+          
+          `} 
+
+        }) 
+      
+      } 
+
+    });
+
+    mainChatBoxRightSideChatArea.innerHTML = html2;
+
+    mainChatBoxRightSideChatArea.scrollTop = mainChatBoxRightSideChatArea.scrollHeight;
+
+  
+
+  function displayFilteredMessages() {
+  let arrayToShow = messagesArrayUpdate;
+
+  if (mainChatBoxLeftSideTopInput.value.trim() !== '') {
+    arrayToShow = filteredArray;
+  }
+
+  
+
+  const keyframes = `
+  @keyframes colorChange {
+    0% {
+      background-color: #f1f1f1; /* Initial color (gray) */
+    }
+    50% {
+      background-color: #5c9ded; /* Intermediate color */
+    }
+    100% {
+      background-color: #f1f1f1; /* Final color (gray) */
+    }
+  }
+`;
+
+
+
+let html = '';
+let isReadinThread;
+let isReadinThreadValue;
+let headerName;
+
+arrayToShow.forEach(element => {
+
+  element.threads.map(element2=>{ 
+   isReadinThread = element2.isRead
+   isReadinThreadValue = element2.sender
+  })
+  // Check the isRead property to conditionally apply the animation
+  const animationStyle = !element.isRead && isReadinThreadValue!=element.sender_id    || (!isReadinThread && element.threads.length>0 &&  isReadinThreadValue == element.sender_id)  ? `animation-name: colorChange; animation-duration: 2s; animation-timing-function: ease; animation-iteration-count: infinite;` : '';
+
+  html += `
+    <a href="/studentmessage/${element._id}"  >
+
+      <style>${keyframes}</style> <!-- Include the keyframes rule -->
+      <div class="mainChatBoxLeftSideBottomBox" style="${animationStyle}" ${!element.isRead&& isReadinThreadValue!=element.sender_id   || !isReadinThread&& isReadinThreadValue==element.sender_id    ? `onclick="changeStatus('${element._id}')"` : 'onclick="showChatBoxes()"'} ">
+        <div class="mainChatBoxLeftSideBottomBoxImg">
+          <img src="${element.senderImgProfile}" alt="" class="mainChatBoxLeftSideBottomBoxImgTag">
+        </div>
+        <div class="mainChatBoxLeftSideBottomBoxName">
+          <h2 class="mainChatBoxLeftSideBottomBoxNameH2">${element.senderFirstName} ${element.senderLastName}</h2>
+        </div>
+        <div class="mainChatBoxLeftSideBottomBoxDate">
+          <h2 class="mainChatBoxLeftSideBottomBoxDateH2">${moment(element.createdAt).utc().format("DD MMMM HH:mm")}</h2>
+        </div>
+      </div>
+    </a>
+  `;
+
+  headerName = element.senderFirstName
+});
+
+
+mainChatBoxLeftSideBottom.innerHTML = html;
+
+
+}
+
+
+const mainChatBoxLeftSideBottomBox = document.querySelector('.mainChatBoxLeftSideBottomBox');
+
+mainChatBoxLeftSideBottomBox && mainChatBoxLeftSideBottomBox.addEventListener('click', () => {
+  mainChatBoxLeftSideTopNameH2.innerHTML = headerName;
+  console.log(headerName)
+});
+
+
+
+async function changeStatus(id) {
+  showChatBoxes()
+
+
+  try {
+    const res = await fetch(`/studentmessageChangeStatus`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id }) // Include the id in the request payload
+    });
+    
+
+  } catch (error) {
+    console.log(error); // Log the error for debugging
+  }
+}
+
+
+mainChatBoxRightSideChatArea.innerHTML = html2
+filterMessages();
+
+mainChatBoxLeftSideTopInput.addEventListener('input', filterMessages)
+
+
+
+async function saveChatMessagetoThread() {
+  const inputElement = document.querySelector('.chatInput');
+  const message = inputElement.value;
+
+
+  try {
+    const res = await fetch(`/studentmessage`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        message: message,
+        id: messageParamID.toString()
+      }),
+      headers: { 'Content-Type': 'application/json' },
+    });
+    location.reload();
+    // Process the response if needed
+    inputElement.value = '';
+  } catch (error) {
+    console.log(error); // Log the error for debugging
+  } 
+}
+const hidingArrow = document.querySelector('.hidingArrow')
+const mainChatBoxLeftSide = document.querySelector('.mainChatBoxLeftSide')
+const mainChatBoxRightSide = document.querySelector('.mainChatBoxRightSide')
+const chatInputButton = document.querySelector('.chatInputButton')
+const mainChatBoxRightSideTop = document.querySelector('.mainChatBoxRightSideTop')
+const mainChatBoxRightSideFlex = document.querySelector('.mainChatBoxRightSideFlex')
+
+
+
+
+
+function hideDiv() {
+  if (window.innerWidth <= 768) {
+
+        mainChatBoxLeftSide.style.display = 'flex'
+        mainChatBoxRightSideFlex.style.display = 'none'
+      chatInputButton.style.display = 'none'
+      mainChatBoxRightSideTop.style.display = 'none'
+      }
+
+
+
+  }
+/* 
+   if (window.innerWidth <= 768 ) {
+    mainChatBoxLeftSide.style.display= 'none';
+
+      } */
+
+function showChatBoxes() {
+
+  if (window.innerWidth <= 768) {
+    mainChatBoxLeftSide.style.display = 'none';
+        chatInputButton.style.display = 'flex'
+        mainChatBoxRightSideFlex.style.display = 'block'; 
+        mainChatBoxRightSideTop.style.display = 'flex'
+        mainChatBoxRightSide.style.display = 'flex'
+      } 
+}
+
+
+
+</script> 
+<%- include('partials/footer'); -%>

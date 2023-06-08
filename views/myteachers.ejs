@@ -1,0 +1,65 @@
+<%- include('partials/header'); -%>
+
+<div class="container">
+
+  
+
+
+   <div class="mainBoxDiv">
+
+          <div class="studentReservationTitle">
+            <h1>List of my teachers </h1>
+          </div>
+
+
+      <% for (let i = 0; i < myTeachersArray.length; i++) { %>
+
+      <% const lesson = myTeachersArray[i]; %>
+      <% if (lesson.isConfirmed || lesson.isCompleted) { %>
+        <div class="boxDivConfirmEnd" id="<%= lesson._id %>" onclick="navigateToTeacher('<%=lesson.SecondaryIdTeacher %>')">
+          <div class="boxDivleftSideMyBookingLessons">   
+    
+            <div class="nameAndImage">
+              <div class="boxName">   <p><b><%= lesson.teacherFirstName %> <%= lesson.teacherLastName %></b></p></div>
+                <div class="boxImg"><img  class="imageProfile"src="<%= lesson.teacherProfile %>" alt=""> </div> 
+              </div>
+
+              <div class="TeacherLessonsCounter">
+            <% let countCompleted = 0; %>
+            <% for (let i of myTeachersArray) { %>
+              <% if (myTeachersArray.some(obj => obj.idTeacher === i.idTeacher) && lesson.isCompleted) { %>
+                <% countCompleted++; %>
+              <% } %>
+            <% } %>
+            <p class="">Total count of completed lessons: <%= countCompleted %></p>
+            
+          
+          
+       </div>
+
+        
+        </div>
+        </div>
+      <% } %>
+    <% } %>
+    
+ 
+
+  
+
+  <% if ( myTeachersArray.length == 0) { %>    <div class="noRequest">   <h2> you have no teachers </h2> </div>  <% } %>
+
+   </div>
+
+
+
+
+      
+</div>
+
+<script>
+
+function navigateToTeacher(teacherId) {
+          window.location.href = `/teachers/${teacherId}`;
+        }
+</script>

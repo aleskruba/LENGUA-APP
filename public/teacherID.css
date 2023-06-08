@@ -1,0 +1,593 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+
+
+.teacherContainer{
+width: 100%;
+
+font-family: 'Quicksand', sans-serif;
+font-weight: bold;
+font-size: 20px;
+display: grid;
+grid-template-columns: repeat(3,1fr);
+grid-template-rows: auto auto  auto;
+gap: 10px;
+padding: 10px;
+box-sizing: border-box;
+}
+
+.teacherContainer div {
+padding: 10px;
+font-size: 16px;
+}
+
+.teacherHeader{
+grid-column-start: 1;
+grid-column-end: 3;
+
+}
+
+.teacherProfileText {
+  grid-row-start: 2;
+  grid-row-end: 4;
+  grid-column-start: 1;
+  grid-column-end: 3;
+  overflow: auto; /* Add this line to enable scrollbars when content overflows */
+}
+
+.teacherProfileTextInner {
+  min-width: auto;
+  background-color: #f2f2f2;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.teacherProfileTextPtag {
+  margin-left: 20px;
+  max-width: auto;
+  word-wrap: break-word;
+  white-space: pre-wrap; /* Add this line to preserve line breaks */
+  overflow-wrap: break-word; /* Add this line to handle long words */
+}
+
+
+.break-long-line {
+  display: inline-block;
+  white-space: pre-wrap;
+}
+
+.teacherVideo{
+grid-row-start: 1;
+grid-row-end: 4;
+grid-column-start: 3;
+grid-column-end: 4;
+flex-direction: column;
+align-items: center;
+justify-content: center
+}
+
+
+.teacherVideoPlayer{
+  margin-top: 100px;
+margin-left: 70px;
+}
+
+.teacherVideoButton{
+grid-row-start: 4;
+grid-row-end: 5;
+grid-column-start: 3;
+grid-column-end: 4;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.teacherReviews{
+  border-top: 1px solid #555;
+  grid-column-start: 1;
+  grid-column-end: 4;
+  justify-self: center;
+  align-self: center;
+}
+
+.teacherReviewsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Set the number of columns (in this case, 1) */
+  grid-gap: 10px; /* Adjust the gap between grid items */
+}
+
+
+.teacherReviewsMainBox{
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  background-color: lightgray;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+.teacherReviewsBottom{
+  padding-top: 20px;
+
+}
+.teacherReviewsBottomPtag{
+
+  font-size: 12px;
+}
+
+.teacherReviewsnameAndImage {
+  display: flex;
+  align-items: start;
+  justify-content: space-around;
+  border-bottom: 1px solid black;
+  margin-top: -15px;
+ }
+
+ .teacherReviewsMainBoxDate{
+  font-size: 12px;
+ }
+
+.teacherSendMessage{
+grid-column-start: 1;
+grid-column-end: 3;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+@media screen and (max-width:860px){
+.teacherContainer{
+width: 100%;
+height: 100%;
+font-family: 'Quicksand', sans-serif;
+font-weight: bold;
+font-size: 20px;
+display: grid;
+grid-template-columns: 1fr 1fr;
+grid-template-rows: auto 1fr 1fr 1fr 100px;
+gap: 10px;
+padding: 10px;
+box-sizing: border-box;
+}
+.teacherProfileText {
+  margin-top: 20px;
+  height: 350px;
+  grid-row-start: 3;
+  grid-row-end: 4;
+  grid-column-start: 1;
+  grid-column-end: 3;
+  background-color: #f2f2f2;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.teacherProfileTextInner {
+  background-color: #f2f2f2;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.break-long-line{
+  font-size: 13px;
+}
+
+  .break-long-line {
+    display: inline-block;
+    white-space: pre-wrap;
+  }
+.teacherVideo{
+grid-row-start: 4;
+grid-row-end: 5;
+grid-column-start: 1;
+grid-column-end: 3;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+
+}
+.teacherVideoPlayer{
+
+  margin-left: 20px;
+}
+.teacherVideoButton{
+grid-row-start: 5;
+grid-row-end: 6;
+grid-column-start: 1;
+grid-column-end: 3;
+}
+
+.teacherHeader{
+grid-column-start: 1;
+grid-column-end: 3;
+}
+.teacherSendMessage{
+grid-row-start: 2;
+grid-row-end: 3;
+grid-column-start: 1;
+grid-column-end: 3;
+}
+
+.teacherReviewsGrid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr); /* Set the number of columns (in this case, 1) */
+  grid-gap: 10px; /* Adjust the gap between grid items */
+}
+
+
+}
+
+
+.teacherCardBox{
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: 20% 1fr 1fr;
+  grid-template-rows:  1fr  1fr;
+  gap: 0px;
+  background-color: #f2f2f2; /* Slightly darker white background */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.teacherCardBoxImg{
+  grid-row-start: 1;
+  grid-row-end: 3;
+  grid-column-start: 1;
+  grid-column-end: 2;
+  justify-self: center;
+  align-self: center;
+
+}
+
+.teacherCardBoxleftDiv {
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+}
+
+.teacherCardBoxleftDivImg {
+  border-radius: 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.teacherCardBoxName{
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ justify-content: center;
+
+}
+
+.teacherCardBoxNamepTag{
+color:#3B5998;
+}
+
+
+.teacherCardBoxNameType{
+  line-height: 1;
+  font-size: 13px;
+  font-style: italic;
+}
+
+.teacherCardBoxCountry{
+
+  display: flex;
+  align-items: start;
+  justify-content: end;
+}
+
+.teacherCardBoxCountryPtag{
+  font-style: italic;
+  font-size: 20px;
+  color: darkred;
+}
+
+.teacherCardBoxTitle{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.teacherCardBoxTitlePtag{
+  font-size: 16px;
+}
+.teacherCardBoxLanguages{
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+
+.teacherCardBoxLanguagesPtag{
+  font-size: 20px;
+  color: #3B5998;
+}
+
+
+.sendMessageToTeacher {
+  margin-top: 20px;
+  margin-left: 20px;
+  width: 250px;
+}
+
+.sendMessageToTeacherInner{
+  background-color: red;
+  border-radius: 10px;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.sendMessageToTeacherInner p{
+  font-family: 'Poppins', sans-serif;
+  color: white;
+  font-size: 17px;
+
+  font-weight: 700;
+}
+
+
+@media screen and (max-width: 860px) {
+  .teacherCardBox{
+    grid-template-columns: 1fr;
+    grid-template-rows:  repeat(4fr);
+  }
+  .teacherCardBoxImg{
+
+  }
+  
+  .teacherCardBoxName{
+  
+  }
+  
+  .teacherCardBoxCountry{
+    border-bottom: 1px solid black;
+
+    justify-content: center;
+  }
+
+  
+  .teacherCardBoxTitle{
+  
+  }
+  
+  .teacherCardBoxLanguages{
+    justify-content: center;
+  }
+}
+
+
+
+
+dialog[open] {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background overlay */
+}
+
+dialog[open]::backdrop {
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background overlay */
+}
+
+dialog[open] > div {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+
+.myDialogLanguageOptions{
+display: flex;
+gap:20px;
+border-bottom: 1px solid black;
+padding-bottom: 10px;
+}
+
+.myDialogLanguageOption{
+display: inline-block; 
+padding: 10px;
+background-color: lightgray;
+color:black;
+border-radius: 5px;
+}
+
+.myDialogLanguageOption:hover{
+background-color: black;
+color: white;
+}
+
+.myDialogLanguageOption.active{
+background-color: black;
+color: white;
+}
+
+.myDialogSlider {
+display: flex;
+justify-content: flex-start; /* Change to 'flex-start' to align the slider to the left */
+margin-left: 0px; /* Adjust the margin as needed */
+border-bottom: 1px solid black;
+padding-bottom: 10px;
+}
+
+.slider {
+    width: 280px;
+    margin: 10px auto;
+    margin-left: 0px;
+}
+
+.range-slider {
+  width: 280px;
+  appearance: none;
+  background-color: gray;
+  height: 3px;
+  border-radius: 5px;
+  outline: none;
+  opacity: 0.7;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.slider {
+  position: relative; /* Add this line to establish a positioning context */
+}
+
+.range-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background-color: black;
+  border-radius: 2px;
+  cursor: pointer;
+  position: relative; /* Add this line to establish a positioning context */
+  left: -0; /* Add this line to align the dragger to the absolute left side */
+
+}
+
+.range-slider::-moz-range-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background-color: black;
+  border-radius: 2px;
+  cursor: pointer;
+  position: relative; /* Add this line to establish a positioning context */
+  left: 0; /* Add this line to align the dragger to the absolute left side */
+
+}
+
+.circles {
+display: flex;
+justify-content: space-between;
+margin-right: -5px;
+margin-top: 10px;
+}
+
+.circle {
+display: flex;
+align-items: center;
+justify-content: center;
+width: 35px;
+height: 35px;
+background-color: gray;
+color: white;
+cursor: pointer;
+border-radius: 100%; /* Change border radius to create a small square */
+}
+
+.circle:hover {
+background-color: lightgray;
+}
+
+.circle.active {
+background-color: black;
+}
+
+
+.myDialogLanguagePurposeOptions{
+display: flex;
+flex-wrap: wrap;
+gap:20px;
+border-bottom: 1px solid black;
+padding-bottom: 10px;
+}
+
+.myDialogLanguagePurposeOption{
+display: inline-block; 
+padding: 10px;
+background-color: lightgray;
+color:black;
+border-radius: 5px;
+}
+
+.myDialogLanguagePurposeOption:hover{
+background-color: black;
+color: white;
+}
+
+.myDialogLanguagePurposeOption.active{
+background-color: black;
+color: white;  
+}
+
+
+
+.myDialogLanguageMessage textarea {
+width: 100%;
+height: 200px;
+padding: 10px;
+border: none;
+background-color: white;
+color: black;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+resize: none;
+}
+
+
+.myDialogButtons{
+margin-top: 20px;
+display: flex;
+justify-content: space-around;
+}
+
+
+.myDialogButtonSave button,
+.myDialogButtonCancel button {
+padding: 10px 20px;
+border: none;
+background-color: lightgray;
+color: black;
+font-size: 14px;
+border-radius: 5px;
+cursor: pointer;
+transition: background-color 0.3s ease;
+}
+
+.myDialogButtonSave button:hover,
+.myDialogButtonCancel button:hover {
+background-color: black;
+color: white;
+}
+
+
+.myDialogQuestion {
+font-size: 20px; /* Adjust the font size as desired */
+font-weight: bold; /* Apply a bold font weight if desired */
+color: #333; /* Set the text color */
+margin-bottom: 10px; /* Add some bottom margin for spacing */
+}
+
+h2 {
+font-family: Tahoma, sans-serif;
+font-size: 18px;  
+
+font-weight: bold; /* Apply a bold font weight if desired */
+color: #555; /* Set the text color */
+margin-bottom: 15px; /* Add some bottom margin for spacing */
+}
+
+
+.myDialogErrorMessage{
+  margin-top: 10px;
+  color: red;
+  font-weight: 800;
+  font-family: Tahoma, sans-serif;
+}
+
+
+  @media screen and (max-width: 860px) {
+    .myDialogQuestion {
+    font-size: 14px; /* Adjust the font size as desired */
+    font-weight: bold; /* Apply a bold font weight if desired */
+    color: #333; /* Set the text color */
+    margin-bottom: 10px; /* Add some bottom margin for spacing */
+    }
+    h2 {
+      font-family: Tahoma, sans-serif;
+      font-size: 14px;  
+      
+      font-weight: bold; /* Apply a bold font weight if desired */
+      color: #555; /* Set the text color */
+      margin-bottom: 15px; /* Add some bottom margin for spacing */
+      }
+    
+    }

@@ -1,0 +1,452 @@
+<%- include('partials/header'); -%>
+
+<div class="mainSlotDiv">
+
+  <div class="mainSlotDivTeacher">
+    <div><h2>Book a lesson with <%= teacher.firstName %> <%= teacher.lastName %></h2></div>
+    <div class="mainSlotDivTeacherImg">   
+      <img class="teacherProfileImg" src="<%= teacher.profile %>" alt="">
+    </div>
+  </div>
+  
+  <div class="calednarDiv">
+        <div id="calendar-container"></div>
+    </div>
+
+    <div class="savedInfoOKText">
+
+    </div>
+    <div class="savedInfoErrorText">
+
+    </div>
+    <div class="summary">
+
+
+    </div>
+
+    <div class="saveButton">
+      
+      <div class="saveButtonClassSchedule" style="display:none" onclick="saveDates()">
+        
+            <h4 class="paymentButton"> </h4>
+      
+        </div>
+        
+        <div class="cancelButtonClassSchedule" style="display:none" onclick="location.assign('/teachers')">
+        <h4>cancel </h4> 
+        </div>
+      
+      </div> 
+</div>
+
+
+<%- include('partials/footer'); -%>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.33/moment-timezone-with-data.min.js"></script>
+
+<script>
+  console.log('user')
+  const teacher_Id = '<%= teacher_Id %>';
+  const teacherIdUser = '<%= teacherIdUser %>';
+  const teachingSlots = '<%= teachingSlots %>';
+  const alreadyBookedLessonsArray = '<%= alreadyBookedLessonsArray %>';
+  const alreadyBookedLessonsArraySplit = alreadyBookedLessonsArray.split(",")
+
+
+  const lessons = '<%= lessonDatesArray %>' // Parse the JSON string back to an array
+  const lessonDatesArray = lessons.split(",")
+
+  let teachingSlotsArray = teachingSlots.split(',');
+  const learningSlotsArray = []
+  //console.log(teachingSlotsArray)
+
+  let isSelectedbyStudent = false
+  let isSelected = false; 
+  let isConfirmedLesson = false;
+  let soldOutLessons = false
+  let alreadyBookedByStudent = false
+
+  const now = moment();
+  const today = moment();
+
+  const calendar = (containerEl) => {
+      let selectedDate = null;
+      let currentMonth = moment();
+      
+      const renderCalendar = () => {
+  const startOfMonth = moment(currentMonth).startOf('month');
+  const endOfMonth = moment(currentMonth).endOf('month');
+  const daysInMonth = endOfMonth.date();
+  const monthName = currentMonth.format('MMMM');
+  const year = currentMonth.format('YYYY');
+  const calendarHeader = `
+    <div class="calendar-header">
+      <button id="prev-month">&lt;</button>
+      <div class="monthName">${monthName} ${year}</div>
+      <button id="next-month">&gt;</button>
+    </div>
+  `;
+  const calendarDays = `
+    <div class="calendar-days">
+      <div class="calendar-day">Sun</div>
+      <div class="calendar-day">Mon</div>
+      <div class="calendar-day">Tue</div>
+      <div class="calendar-day">Wed</div>
+      <div class="calendar-day">Thu</div>
+      <div class="calendar-day">Fri</div>
+      <div class="calendar-day">Sat</div>
+    </div>
+  `;
+  const calendarDates = [];
+  let cells = [];
+  for (let date = moment(startOfMonth); date.isSameOrBefore(endOfMonth, 'day'); date.add(1, 'day')) {
+    let soldOutLessons = false
+    const day = date.date();
+    const isToday = date.isSame(moment(), 'day');
+   // const isSelected = date.isSame(selectedDate, 'day');
+    const isPast = date.isBefore(today, 'day') || date.isSame(today, 'day');
+    // Define hoursArray within the function
+    const hoursArray = [];
+    for (let hour = 0; hour < 24; hour++) {
+      const unixTimestamp = moment(date).hour(hour).unix() * 1000;
+      hoursArray.push(unixTimestamp);
+    }
+    
+    const matchingHours = hoursArray.filter(hour => teachingSlotsArray.includes(String(hour)));
+    if (matchingHours.length == alreadyBookedLessonsArraySplit.length && matchingHours.some(el => el == alreadyBookedLessonsArraySplit[1])) {
+  soldOutLessons = true;
+}
+
+   //console.log(matchingHours.length, '  ',alreadyBookedLessonsArraySplit.length,' ',matchingHours.some(el=> el == alreadyBookedLessonsArraySplit[1]) )
+
+
+    if (date.date() === 1) {
+      // Add empty cells for days before the first day of the month
+      const emptyCells = date.day();
+      for (let i = 0; i < emptyCells; i++) {
+        cells.push(`
+          <div class="calendar-date calendar-date-empty"></div>
+        `);
+      }
+    }
+    cells.push(`
+      <div
+        class="calendar-date${isToday ? ' calendar-date-today' : ''}${isSelected ? ' calendar-date-selected' : ''}${matchingHours.length && !isPast && !soldOutLessons ? ' calendar-date-includesCheckeHours ' : ''}${isPast ? ' calendar-date-past' : ''}${isToday ? ' calendar-date-disabled' : ''}"
+        data-date="${date.format('YYYY-MM-DD')}"
+        ${isToday ? 'disabled' : ''}
+      >
+        ${day}
+      </div>
+    `);
+    if (date.day() === 6 || day === daysInMonth) {
+      calendarDates.push(`<div class="calendar-row">${cells.join('')}</div>`);
+      cells = [];
+    }
+  }
+  const calendarDatesHtml = calendarDates.join('');
+  const calendarHtml = `
+    <div class="calendar">
+      ${calendarHeader}
+      ${calendarDays}
+      ${calendarDatesHtml}
+    </div>
+  `;
+
+
+
+    
+
+    containerEl.innerHTML = calendarHtml;
+    containerEl.querySelectorAll('.calendar-date').forEach((dateEl) => {
+
+        dateEl.addEventListener('click', () => {
+
+       
+          isSelectedbyStudent = false
+          const date = moment(dateEl.getAttribute('data-date'));
+          if (date.isSameOrAfter(moment(), 'day')) {
+            selectedDate = date;
+            renderCalendar();
+      
+            // Create a new container for the 24-hour schedule
+            const scheduleContainer = document.createElement('div');
+            scheduleContainer.classList.add('schedule-container');
+            containerEl.appendChild(scheduleContainer);
+      
+            // Create a string with 24 time slots for the schedule
+         // Create a string with 24 time slots for the schedule
+         let scheduleHtml = '<div class="schedule-header">Select a time slot:</div>';
+         let amScheduleHtml = '';
+         let pmScheduleHtml = '';
+         for (let i = 0; i < 24; i++) {
+           const timeSlotStart = moment({ hour: i });
+           const timeSlotEnd = moment({ hour: i +1 });
+           const isPast = timeSlotStart.isBefore(moment(), 'hour');
+           isSelected = false;
+           isSelectedbyStudent = false;
+            isConfirmedLesson = false;
+           alreadyBookedByStudent = false
+           const utcDateTime = moment.utc(date.format('YYYY-MM-DD') + ' ' + timeSlotStart.format('HH:mm')).valueOf();
+
+           teachingSlotsArray.map(m=>{ 
+            if (m == utcDateTime) { isSelected = true;}
+          }
+          )
+
+               learningSlotsArray.map(m=>{ 
+            if (m == utcDateTime ) { isSelectedbyStudent = true;}
+          }
+          )
+                      
+          lessonDatesArray.map(m=>{
+         
+            if (m==utcDateTime)     isConfirmedLesson = true
+
+          })
+
+  
+          alreadyBookedLessonsArraySplit.map(m=>{
+
+            if (m==utcDateTime){
+                       alreadyBookedByStudent = true
+          
+          }
+          })
+          
+       
+
+          const timeSlotHtml = `
+      
+                <div id="${utcDateTime}" class="schedule-time-slot${isSelected && isConfirmedLesson ? ' schedule-time-slot-reserved' : ''}${isConfirmedLesson ? ' confirmed' : ''}${alreadyBookedByStudent ? ' booked' : ''}${isSelected ? ' schedule-time-slot-selected-teacher' : ' schedule-time-slot-notClikable'} ${isSelected && isSelectedbyStudent ? ' schedule-time-slot-selected-booked' : ' '}"
+                data-date="${date.format('YYYY-MM-DD')}" data-time="${timeSlotStart.format('HH:mm')}">
+                ${timeSlotStart.format('h A')} - ${timeSlotEnd.format('h A')}
+                <div class="datebookedhover">Booked by you</div> 
+                <div class="dateconfirmedhover">Booked</div> 
+                     
+          
+             
+                       </div>
+                       
+            `;
+
+
+            if (i < 12) {
+             amScheduleHtml += timeSlotHtml;
+           } else {
+             pmScheduleHtml += timeSlotHtml;
+           }
+         }
+         
+         // Set the inner HTML of the new container to the schedule HTML
+         scheduleHtml += `
+           <div class="schedule-columns">
+             <div class="schedule-column1">${amScheduleHtml}</div>
+             <div class="schedule-column2">${pmScheduleHtml}</div>
+           </div>
+         `;
+         
+      
+            // Set the inner HTML of the new container to the schedule HTML
+            scheduleContainer.innerHTML = scheduleHtml;
+          
+
+    
+            const dateBookedElements = document.querySelectorAll('.schedule-time-slot.booked');
+
+          dateBookedElements.forEach((element) => {
+            const dateBookedHover = element.querySelector('.datebookedhover');
+
+            element.addEventListener('mouseover', () => {
+              dateBookedHover.style.display = 'flex';
+              element.classList.add('hover-disabled');
+            });
+
+            element.addEventListener('mouseout', () => {
+              dateBookedHover.style.display = 'none';
+              element.classList.remove('hover-disabled');
+            });
+          });
+
+          const dateConfirmedElements = document.querySelectorAll('.schedule-time-slot.confirmed:not(.schedule-time-slot.booked)');
+
+                   dateConfirmedElements.forEach((element) => {
+                    const dateconfirmedhover = element.querySelector('.dateconfirmedhover');
+
+                    element.addEventListener('mouseover', () => {
+                      dateconfirmedhover.style.display = 'flex';
+                      element.classList.add('hover-disabled');
+                    });
+
+                    element.addEventListener('mouseout', () => {
+                      dateconfirmedhover.style.display = 'none';
+                      element.classList.remove('hover-disabled');
+                    });
+                  });
+
+
+
+
+
+              
+
+
+    
+            const summary = document.querySelector('.summary')  
+            const newElement = document.querySelector('.p');
+            // Add click event listeners to each time slot
+            scheduleContainer.querySelectorAll('.schedule-time-slot-selected-teacher:not(.schedule-time-slot.booked):not(.schedule-time-slot-reserved):not(.schedule-time-slot-confirmed)').forEach((timeSlotEl) => {
+             
+              timeSlotEl.addEventListener('click', () => {
+                console.log('clisk')
+
+                
+                const selectedTimeSlotEl = scheduleContainer.querySelector('.schedule-time-slot-selected-teacher');
+
+                const date = moment(timeSlotEl.getAttribute('data-date'));
+                const time = moment(timeSlotEl.getAttribute('data-time'), 'HH:mm');
+                const dateTime = moment({ year: date.year(), month: date.month(), date: date.date(), hour: time.hour(), minute: time.minute() });
+                const dateTimePlusOneHour = dateTime.clone().add(1, 'hour');
+                const formattedDateTimeOneHour = dateTimePlusOneHour.local().format('MMMM D, YYYY h:mm A');
+
+              
+               
+                const dateTimeslot1 = dateTime.valueOf();
+              
+               
+                const utcDateTime = moment.utc(date.format('YYYY-MM-DD') + ' ' + time.format('HH:mm')).valueOf();
+             
+                  if (learningSlotsArray.includes(utcDateTime.toString())) 
+                    { timeSlotEl.classList.remove('schedule-time-slot-selected-booked'); 
+                     const index = learningSlotsArray.indexOf(utcDateTime.toString());
+                     learningSlotsArray.splice(index, 1);
+                      console.log(learningSlotsArray)
+                      const newElement = document.querySelector('.p');
+                      summary.removeChild(newElement);
+                      
+                    }
+                 else {
+                    isSelectedbyStudent = true
+                    timeSlotEl.classList.add('schedule-time-slot-selected-booked');
+                    learningSlotsArray.push(utcDateTime.toString())
+                                   
+                    const date = moment(parseInt(utcDateTime)).utcOffset(moment().utcOffset()).tz('Europe/Berlin');
+                    const formattedDate = date.format('D MMMM YYYY');
+                    const start = date.subtract(2, 'hours').utc().format('h:mm a');
+                    const end = date.add(1, 'hour').utc().format('h:mm a');
+
+                    const output = `${formattedDate}, ${start} - ${end}`;
+                    const newElement = document.createElement('p');
+                    newElement.classList.add('p');
+                    newElement.textContent = output;
+                    summary.appendChild(newElement);
+
+  
+
+                  }
+              
+               const saveButtonClass = document.querySelector('.saveButtonClassSchedule');
+               const cancelButtonClass = document.querySelector('.cancelButtonClassSchedule');
+                
+                const teacherTax = '<%= teacherIdUser %>';
+                const paymentButton = document.querySelector('.paymentButton')
+                paymentButton.textContent = `You will pay $${teacherTax*learningSlotsArray.length}`
+
+                if (learningSlotsArray.length !== 0) { 
+                    saveButtonClass.style.display = "flex";
+                    cancelButtonClass.style.display = "flex";
+                } else {  saveButtonClass.style.display = "none";  cancelButtonClass.style.display = "none";}
+
+                const utcMoment = moment.utc(dateTimeslot1);
+                const localMoment = utcMoment.local();
+                const formattedDateTime = localMoment.format('MMMM D, YYYY h:mm A');
+                
+               
+            });
+            });
+          }
+        });
+        
+      });
+      
+      
+
+      
+
+      const prevMonthBtn = containerEl.querySelector('#prev-month');
+      prevMonthBtn.addEventListener('click', () => {
+        currentMonth.subtract(1, 'month');
+        renderCalendar();
+      });
+      
+      const nextMonthBtn = containerEl.querySelector('#next-month');
+      nextMonthBtn.addEventListener('click', () => {
+        currentMonth.add(1, 'month');
+        renderCalendar();
+      });
+    };
+  
+    renderCalendar();
+};
+
+
+
+
+
+const calendarContainer = document.querySelector('#calendar-container');
+      const myCalendar = calendar(calendarContainer);
+
+      calendarContainer.addEventListener('dateSelected', (event) => {
+        console.log(event.detail);
+      });
+
+
+const savedInfoOKText = document.querySelector('.savedInfoOKText')
+const savedInfoOKTextH4 = document.createElement('h4')
+ 
+
+const savedInfoErrorText = document.querySelector('.savedInfoErrorText')
+const savedInfoErrorTextH4 = document.createElement('h4')
+
+async function saveDates(){
+  const saveButtonClass = document.querySelector('.saveButtonClassSchedule');
+  const cancelButtonClass = document.querySelector('.cancelButtonClassSchedule');
+
+  const teacherTax = '<%= teacherIdUser %>';
+  if (teacherTax !== 's' ) {
+      try {
+
+        saveButtonClass.style.pointerEvents = "none";
+        saveButtonClass.style.opacity = "0.3";
+        cancelButtonClass.style.pointerEvents = "none";
+        cancelButtonClass.style.opacity = "0.3";
+
+        const res =  await fetch('/saveLessonSlot', {
+        method: 'POST',
+        body: JSON.stringify({ timeSlot: learningSlotsArray, teacherID: teacher_Id, credits:teacherTax*learningSlotsArray.length}),
+        headers: { 'Content-Type': 'application/json' }
+      });
+
+      if (res.status === 201) {
+        savedInfoOKTextH4.innerHTML = 'Reservation was successful';
+        savedInfoOKText.appendChild(savedInfoOKTextH4);
+        setTimeout(()=>{location.assign('/mybookedlessons')},1000);
+      } else {
+        const error = await res.json();
+        savedInfoErrorTextH4.innerHTML = 'An error occurred: ' + error.error;
+        savedInfoErrorText.appendChild(savedInfoErrorTextH4);
+        setTimeout(()=>{location.assign('/wallet')},1000);
+      }
+
+  } catch (err) {
+    console.log('error', err);
+    savedInfoErrorTextH4.innerHTML = 'An error occurred: ' + err.message;
+    savedInfoErrorText.appendChild(savedInfoErrorTextH4);
+    setTimeout(()=>{location.assign('/wallet')},1000);
+    }
+
+  } else { savedInfoErrorTextH4.innerHTML = 'You have to choose lesson aS first: '
+    savedInfoErrorText.appendChild(savedInfoErrorTextH4);}
+  }
+
+
+
+</script>

@@ -1,0 +1,72 @@
+.errorLogo{
+    position: absolute;
+    top:30;
+    left:30;
+}
+
+.errorContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+
+
+.error-headline{
+    font-size: 52px;  
+    font-family: 'Cinzel', serif;
+    font-weight: 400;
+    padding: 1.5em 0 0.3em;
+    line-height: 1.07692;
+
+
+}
+.error-headline2{
+    text-align: center;
+    font-size: 24px;  
+    font-family: 'Cinzel', serif;
+    font-weight: 400;
+    padding: 1.5em 0 0.3em;
+    line-height: 1.07692;
+}
+
+
+
+@media screen and (max-width:768px) {
+
+.error-emoji{
+    width: 50%;
+    height: 50%;
+}
+
+.errorLogo{
+    position: absolute;
+    top:20;
+    left:20;
+}
+
+.errorLogo img{
+ width: 100px;
+ height: 100px;
+}
+
+.error-headline{
+    font-size: 42px;  
+    font-family: 'Cinzel', serif;
+    font-weight: 400;
+    padding: 1.5em 0 0.3em;
+    line-height: 1.07692;
+
+
+}
+.error-headline2{
+    text-align: center;
+    font-size: 18px;  
+    font-family: 'Cinzel', serif;
+    font-weight: 400;
+    padding: 1.5em 0 0.3em;
+    line-height: 1.07692;
+}
+
+}

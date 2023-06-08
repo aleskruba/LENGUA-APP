@@ -1,0 +1,320 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lengua - Master any language</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/wallet.css">
+  <link rel="stylesheet" href="/payment.css">
+  <link rel="stylesheet" href="/teacherzoneUpdate.css">
+  <link rel="stylesheet" href="/teacherSlotId.css">
+  <link rel="stylesheet" href="/studentReservation.css">
+</head>
+<body>
+
+  <div class="headerNav">
+     
+    <div class="leftSize">
+       <a href="/"> <img class="LogoPNG" src="/logo.png" alt=""> </a>
+    </div>
+    <div class="rightSize">
+
+      <nav class="navbarDiv">
+        <div>
+        <ul>
+          <% if (user) { %>
+     
+                                            <li>
+                                              <div class="confirmationDiv" ></div>
+                                            </li>
+                                 
+                                            <li class="profile">
+            <a>Profile</a>
+            <ul class="profile-menu">
+              <li><a href="/profile">My Profile</a></li>
+              <li><a href="/wallet">My Wallet</a></li>
+              <li><a href="/myteachers">My Teachers</a></li>
+              <li><a href="/mybookedlessons">My lessons</a></li>
+            </ul>
+          </li>          
+          <li><a href="/teachers">Find a teacher</a></li>
+          <% if (user.isTeacher ==='YES') { %>
+            <div class="teacherZoneMenu">
+              <li style="background-color: rgb(247, 169, 169);" class="teacherZoneMenuRelative"> <a>Teacher zone</a> 
+              
+
+                <a href="/studentmessage">              <div class="TeacherMessageDiv"  ><svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 12.414V5a2 2 0 0 0-2-2H5c-1.1 0-2 .9-2 2v14l4-4h12a2 2 0 0 0 2-2v-1.586l-4 4z" />
+                  <circle cx="8" cy="10" r="0.5" fill="black" />
+                  <circle cx="12" cy="10" r="0.5" fill="black" />
+                  <circle cx="16" cy="10" r="0.5" fill="black" />
+                </svg>
+                <div class="TeacherMessageDivCounter" style="display: none;">
+                <p class="counterPtag"></p> 
+                </div>
+                  </div></a>
+
+
+              </li>
+                         <ul class="teacherZoneMenuMyLessonsUL">
+                <li class="teacherZoneMenuMyLessonsLI"><a href="/teacherzoneupdate">My Settings</a></li>
+                <li class="teacherZoneMenuMyLessonsLI"><a href="/mylessons">My Lessons</a></li>
+                <li class="teacherZoneMenuMyLessonsLI"><a href="/mystudents">My Students</a></li>
+              
+              
+              </ul>
+            </div>
+          
+          <% } %>
+          <li>
+            </ul>
+          </div>
+          <div>  
+          <ul>
+            <div class="headerImg"> <img src="<%= user.profile %>" alt=""> 
+              <a href="/teacherstudentmessage">              <div class="messageDiv" ><svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.414V5a2 2 0 0 0-2-2H5c-1.1 0-2 .9-2 2v14l4-4h12a2 2 0 0 0 2-2v-1.586l-4 4z" />
+                <circle cx="8" cy="10" r="0.5" fill="black" />
+                <circle cx="12" cy="10" r="0.5" fill="black" />
+                <circle cx="16" cy="10" r="0.5" fill="black" />
+              </svg>
+              <div class="messageDivCounter" style="display: none;">
+              <p class="counterPtagStudent"> </p> 
+              </div>
+                </div></a>
+  
+                <a href="/confirmfinishedlesson">   <div class="confirmLessonDiv" style="display:none"></div></a> 
+  
+                <a href="/studentreservation">     <div class="heaederNotice" style="display:none"></div></a>
+  
+              </div> 
+          </li>
+          <li><a href="/logout">Log out</a></li>
+        
+          <%} else { %> 
+          <li><a href="/login">Log in</a></li>
+          <li><a href="/signup">Sign up</a></li>
+            <%} %>
+
+        </ul>
+      </div>
+      </nav>
+
+  </div>
+
+</div>
+
+
+
+
+<% if (user) { %>
+  <a href="/studentreservation">
+  <div class="requiredAction" style="display: none;">
+    <div class="requiredActionH2" > action is required !!!
+    </div>
+  </div>
+ </a>
+
+ <a href="/confirmfinishedlesson">
+  <div class="requiredActionFinishedLesson" style="display: none;">
+    <h2 class="requiredActionFinishedLessonH2"> action is required !!!
+    </h2>
+  </div>
+ </a>
+<script>
+
+
+
+fetch('/confirmfinishedlessonnotice')
+                .then(response => response.json())
+                .then(data =>{
+      
+
+                  const  heaederNoticeCompletedH3 = document.createElement('h3')
+                  heaederNoticeCompletedH3.innerHTML = ''
+
+                  const confirmLessonDiv = document.querySelector('.confirmLessonDiv')
+                  const requiredActionFinishedLesson = document.querySelector('.requiredActionFinishedLesson')
+
+                  data.bookedLessons.length > 0  ? confirmLessonDiv.style.display = "flex"  : ""
+                  data.bookedLessons.length > 0  ?  requiredActionFinishedLesson.style.display  = 'flex' : ""
+                  heaederNoticeCompletedH3.innerHTML = data.bookedLessons.length
+                  confirmLessonDiv.appendChild(heaederNoticeCompletedH3)
+           
+
+              })
+
+
+             
+  let counter = 0
+  const counterPtag = document.querySelector('.counterPtag')
+  const TeacherMessageDivCounter = document.querySelector('.TeacherMessageDivCounter')
+  
+  let counterSudent = 0
+  const counterPtagStudent = document.querySelector('.counterPtagStudent')
+  const messageDivCounter = document.querySelector('.messageDivCounter')
+
+  fetch('/lessonssdata')
+                .then(response => response.json())
+                .then(data => {
+                  
+   
+                  counter = data.counter
+                  if (counter>0) {
+                    TeacherMessageDivCounter.style.display = 'flex'
+                    counterPtag.innerHTML = counter
+                  }
+                 
+                  counterSudent = data.counterStudent
+                  if (counterSudent>0) {
+                    messageDivCounter.style.display = 'flex'
+                    counterPtagStudent.innerHTML = counterSudent
+                  }
+
+                  let isCOnfirmedArray = []
+                  const  heaederNoticeH3 = document.createElement('h3')
+                  heaederNoticeH3.innerHTML = ''
+                  for (let i of data.lessons) {
+                         
+
+                    if (i.isConfirmed !== true && i.isRejected !== true ) {
+                        isCOnfirmedArray.push(i)
+                    const heaederNotice = document.querySelector('.heaederNotice')
+                    const requiredAction = document.querySelector('.requiredAction')
+                                      isCOnfirmedArray.length > 0  ? heaederNotice.style.display = "flex"  : ""
+                    isCOnfirmedArray.length > 0  ?  requiredAction.style.display  = 'flex' : ""
+                    heaederNoticeH3.innerHTML = isCOnfirmedArray.length
+                    heaederNotice.appendChild(heaederNoticeH3)
+            
+
+                    }
+
+                  }
+              })
+
+
+
+              async function confirmTeacherConfirmation(ID) {
+                  const isConfirmedNotice = document.querySelectorAll('.isConfirmedNotice');
+                  for (let i in isConfirmedNotice) {
+                    if (isConfirmedNotice.hasOwnProperty(i)) {
+                        if (isConfirmedNotice[i].id == ID) {
+                        isConfirmedNotice[i].style.display = 'none';
+
+                          try {
+                              const res = await fetch('/lessonssdataconfirmation', {
+                                
+                                method: 'PUT',
+                                body: JSON.stringify({ ID}),
+                                headers: { 'Content-Type': 'application/json' }
+                              });
+                              const data = await res.json();
+                              if (data.errors) {
+                                emailError.textContent = data.errors.email;
+                              }
+                            }
+                            catch (err) {
+                              console.log('error', err);
+                            }
+              
+                      }
+                    }
+                  }
+                }
+
+
+                async function confirmTeacherRejectConfirmation(ID) {
+                  const isRejectedNotice = document.querySelectorAll('.isRejectedNotice');
+
+                  for (let i in isRejectedNotice) {
+                    if (isRejectedNotice.hasOwnProperty(i)) {
+                        if (isRejectedNotice[i].id == ID) {
+                          isRejectedNotice[i].style.display = 'none';
+
+                          try {
+                              const res = await fetch('/lessonssdataconfirmation', {
+                                
+                                method: 'PUT',
+                                body: JSON.stringify({ ID}),
+                                headers: { 'Content-Type': 'application/json' }
+                              });
+                              const data = await res.json();
+                              if (data.errors) {
+                                emailError.textContent = data.errors.email;
+                              }
+                            }
+                            catch (err) {
+                              console.log('error', err);
+                            }
+              
+                      }
+                    }
+                  }
+                }
+
+
+        fetch('/lessonssdataconfirmation')
+          .then(response => response.json())
+          .then(data => {
+            const confirmationDiv = document.querySelector('.confirmationDiv');
+            let html = '';
+
+            for (let i of data.lessons) {
+              if (i.isConfirmed && !i.isReadConfirmation) {
+                html += `
+                    <div class='isConfirmedNotice' id="${i._id}" style="display: block;" onclick="confirmTeacherConfirmation('${i._id}')">
+                      <p>
+                        ${i.timeSlot.map(slot => `
+                          ${moment(parseInt(slot)).utc().format("DD MMMM HH:mm")} ${moment(parseInt(slot)).add(1, 'hour').utc().format("HH:mm")}
+                       <br> `).join('')}
+                        was confirmed by ${i.teacherFirstName} ${i.teacherLastName}
+                      </p>
+                      <p>Confirm this notification !!!</p>
+                    </div>
+                  `;
+
+              }
+              if (i.isRejected && !i.isReadConfirmation) {
+              
+                html += `
+                    <div class='isRejectedNotice' id="${i._id}" style="display: block;" onclick="confirmTeacherRejectConfirmation('${i._id}')">
+                      <p>
+                        ${i.timeSlot.map(slot => `
+                          ${moment(parseInt(slot)).utc().format("DD MMMM HH:mm")} ${moment(parseInt(slot)).add(1, 'hour').utc().format("HH:mm")}
+                       <br> `).join('')}
+                        was rejected by ${i.teacherFirstName} ${i.teacherLastName}
+                      </p>
+                      <p>Confirm this notification !!!</p>
+                    </div>
+                  `;
+
+              }
+            }
+
+            confirmationDiv.innerHTML = html;
+        });
+
+
+
+     
+  const teacherZoneMenu = document.querySelector('.teacherZoneMenu');
+  const teacherZoneMenuMyLessonsUL = document.querySelector('.teacherZoneMenuMyLessonsUL');
+
+  teacherZoneMenu &&  teacherZoneMenu.addEventListener('mouseover', () => {
+    teacherZoneMenu.classList.add('clicked');
+  });
+
+  teacherZoneMenu && teacherZoneMenu.addEventListener('mouseout', () => {
+    teacherZoneMenu.classList.remove('clicked');
+  });
+
+  teacherZoneMenu && teacherZoneMenu.addEventListener('click', () => {
+    teacherZoneMenu.classList.toggle('clicked');
+  });
+</script>
+
+</script>
+<%} %>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>

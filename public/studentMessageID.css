@@ -1,0 +1,386 @@
+.chatDivMainContainer{
+    margin-top: 20px;
+}
+.chatDivContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+}
+
+.mainChatBox{
+    display: flex;
+    flex-direction: row;
+
+        }
+
+.mainChatBoxLeftSide{
+    display: flex;
+     flex-direction: column;
+    max-width: 280px;
+    max-height: 820px;
+    border-radius: 5px 0 0 5px;
+}
+
+.mainChatBoxLeftSideTop{
+    position: sticky;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: whitesmoke;
+    border-radius: 5px 0 0 0;
+    min-height: 50px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.mainChatBoxLeftSideTopInput {
+    width: 220px;
+    height: 25px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 5px;
+    outline: none;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+    }
+
+    .mainChatBoxLeftSideTopInput:focus {
+    border-color: #5c9ded;
+    }
+
+    .mainChatBoxLeftSideBottom {
+        
+         flex-grow: 1;
+        overflow-y: auto;
+       
+        }
+       
+
+    .mainChatBoxLeftSideBottomBoxTrue {
+        display: flex;
+        background: #f1f1f1;
+        margin-bottom: 2px;
+        height: 40px;
+        padding: 10px;
+        position: relative;
+        }
+
+.mainChatBoxLeftSideBottomBox {
+    display: flex;
+    background-color: #f1f1f1;
+    margin-bottom: 2px;
+    height: 40px;
+    padding: 10px;
+    position: relative;
+
+
+}
+
+
+
+        .mainChatBoxLeftSideBottom::-webkit-scrollbar {
+            width: 8px; /* Width of the scrollbar */
+            }
+
+        .mainChatBoxLeftSideBottom::-webkit-scrollbar-track {
+        background: #f1f1f1; /* Background color of the scrollbar track */
+        }
+
+        .mainChatBoxLeftSideBottom::-webkit-scrollbar-thumb {
+        background: #888; /* Color of the scrollbar thumb */
+        border-radius: 4px; /* Border radius of the scrollbar thumb */
+        }
+
+        .mainChatBoxLeftSideBottom::-webkit-scrollbar-thumb:hover {
+        background: #555; /* Color of the scrollbar thumb on hover */
+        }
+
+
+
+    .mainChatBoxLeftSideBottomBoxImg{
+        flex: 1;
+        display: flex;
+        align-items: center;
+    }
+    .mainChatBoxLeftSideBottomBoxImgTag {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .mainChatBoxLeftSideBottomBoxName{
+        flex:4;
+        display: flex;
+        align-items: center;
+        
+    }
+    .mainChatBoxLeftSideBottomBoxNameH2{
+        font-family: 'Poppins', sans-serif;
+        font-size: 14px;
+        margin-left: 5px;
+        max-width: 50px;    
+        }
+
+    .mainChatBoxLeftSideBottomBoxDate{
+        position: absolute;
+        margin-right: 5px;
+        top: 0;
+        right: 0;
+        flex: 2;
+        margin-left: 10px;
+                }
+    
+    .mainChatBoxLeftSideBottomBoxDateH2{
+        font-family: 'Poppins', sans-serif;
+        font-size: 13px;
+        font-style: italic;
+        font-family: 'Cinzel', serif;
+        color :grey;
+        
+    }
+
+.mainChatBoxRightSide{
+
+    max-width: 650px;
+    width: 650px;
+    min-height: 400px;
+    background: white;
+    border-radius: 0 5px 5px 0;
+}
+.mainChatBoxRightSideTop{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 50px;
+    min-width: inherit;
+    background:whitesmoke;
+    border-radius: 0 5px 0 0;
+    font-family: Noto Sans,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif;
+    font-size: 12px;
+}
+
+.mainChatBoxRightSideChatArea{
+    display: inline-block;
+    width: 100%;
+    font-size: 14px;
+    font-weight: 600;
+    max-height: 750px;
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-top: 10px;
+    margin-left: 10px;
+
+}
+
+.mainChatBoxRightSideChatAreaStudentMain{
+    display: flex;
+
+   
+         
+}
+
+.mainChatBoxRightSideBottomBoxDate{
+    font-weight: 300;
+font-size: 10px;
+margin-top: 5px;
+padding-right: 5px;
+}
+
+
+.mainChatBoxRightSideChatAreaStudent {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: baseline;
+    margin-top: 35px;;
+    max-width: 550px;
+    margin-left: 10px;
+    margin-right: 10px;
+    background: lightgray;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    border-radius: 0 10px 10px 10px;
+    
+            
+}
+
+.mainChatBoxRightSideChatAreaStudentPtag {
+    margin-top: 20px;
+    max-width: 500px;
+    margin: 0;
+    word-wrap: break-word; /* Added property */
+}
+  
+.mainChatBoxRightSideBottomBoxImg{
+         display: flex;
+        align-items: center;
+        
+    }
+ .mainChatBoxRightSideBottomBoxImgTag {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+
+.mainChatBoxRightSideChatAreaTeacherMain{
+display: flex;
+margin-left: 50px;
+}
+
+.mainChatBoxRightSideChatAreaTeacher{
+   display: flex;
+   flex-direction: column;
+    justify-content: left;
+    align-items: baseline;
+    max-width: 550px;
+    margin-top: 35px;;
+    margin-left: 10px;
+    margin-right: 10px;
+    background: whitesmoke;
+    padding-left: 10px;
+    padding-right: 15px;
+    padding-bottom: 10px;
+    border-radius: 0 10px 10px 10px;
+    
+
+}
+
+.mainChatBoxRightSideChatAreaTeacherPtag{
+    margin-top: 20px;
+    margin: 0;
+    max-width: 500px;
+    word-wrap: break-word; /* Added property */
+}
+
+
+.mainChatBoxRightSideChatArea::-webkit-scrollbar {
+            width: 8px; /* Width of the scrollbar */
+            }
+
+        .mainChatBoxRightSideChatArea::-webkit-scrollbar-track {
+        background: #f1f1f1; /* Background color of the scrollbar track */
+        }
+
+        .mainChatBoxRightSideChatArea::-webkit-scrollbar-thumb {
+        background: #888; /* Color of the scrollbar thumb */
+        border-radius: 4px; /* Border radius of the scrollbar thumb */
+        }
+
+        .mainChatBoxRightSideChatArea::-webkit-scrollbar-thumb:hover {
+        background: #555; /* Color of the scrollbar thumb on hover */
+        }
+
+        .chatCalendar{
+            width: 35px;
+
+        }
+
+        .chatInputButton {
+            display: flex;
+            align-items: start;
+            margin-top: 20px;
+        }
+        
+        .chatInput {
+            margin-top: 10px;
+                  flex-grow: 1;
+            width: 500px;
+            height: 100px; /* Adjust the height as needed */
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            resize: none;
+        }
+        
+
+  .sendChat {
+    width: 100px;
+    margin-top: 10px;
+    margin-left: 8px;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .sendChat:hover {
+    background-color: #0069d9;
+  }
+
+  .mainChatBoxRightSideFlex{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hidingArrow{
+    display: none;
+   }
+
+@media screen and (max-width:768px) {
+.mainChatBox{
+    margin-left: 5px;
+    margin-right: 5px;
+
+        }
+
+
+.mainChatBoxRightSideTop{
+    max-width: 300px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 50px;
+    min-width: inherit;
+       border-radius: 5px 5px 0 0;
+}
+.chatInputButton {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 20px;
+
+}
+
+        
+.chatInput {
+    margin-top: 10px;
+   flex-grow: 1;
+    width: 420px;
+    height: 100px; /* Adjust the height as needed */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    resize: none;
+}
+
+
+.hidingArrow{
+    display: block;
+    }
+
+.mainChatBoxRightSideFlex{
+    display: flex;
+    max-width: 400px;
+}
+
+.mainChatBoxLeftSide{
+    display: none;
+}
+}
+

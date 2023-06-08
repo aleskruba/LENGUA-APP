@@ -1,0 +1,405 @@
+.mainSlotDiv{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.mainSlotDiv h2{
+     font-family: "Poppins", sans-serif;
+}
+
+.teacherProfileImg {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+
+
+#calendar-container{
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.calendar {
+    width: 300px;
+    font-size: 1.2rem;
+    border-radius: 10px;
+ 
+  }
+    
+  .calendar-header {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    background-color: #4267B2;
+    padding-left: 10px;
+    padding-right: 10px;
+    
+
+  }
+  .monthName{
+    color: white;
+    font-weight: 800;
+    font-family: 'Poppins',sans-serif;
+  }
+
+
+  .calendar-date-disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  
+.month{
+    color: white;
+    font-weight: 800;
+    font-family: 'Poppins', sans-serif;
+
+}
+  #prev-month,#next-month{
+    margin-bottom: 20px;
+  }
+  
+  .calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    font-size: 15px;
+    background-color: white;
+    font-weight: bold;
+    padding: 0.5rem;
+  }
+  
+  .calendar-row {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    padding: 0.5rem;
+  }
+  
+  .calendar-date {
+    cursor: pointer;
+    padding: 0.5rem;
+    text-align: center;
+    background-color: #ffffff;
+  }
+  
+  .calendar-date-today {
+    background-color: #f2f2f2;
+    pointer-events: none; 
+    
+  }
+  
+  .calendar-date-past {
+    background-color: #d9d9d9;
+    cursor: default;
+  }
+  
+  .calendar-date-selected {
+    background-color:#4267B2;
+    color: white;
+  }
+
+  
+
+
+  .calendar-date-includesCheckeHours {
+    background-color:#c2d6fd;
+    color: black;
+  }
+
+  .calendar-date:hover {
+    background-color: #d9d9d9;
+    color: black;
+  }
+  
+
+  .schedule-container{
+
+    margin-left: 20px;
+
+    
+
+  }
+
+  .schedule-columns{
+    display: flex;
+    
+  }
+
+  .schedule-header{
+    font-size: 20px;
+    padding: 1rem;
+    text-align: center;
+    background-color: #4267B2;
+    color: white;
+    font-weight: 800;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .schedule-column1{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    background-color: whitesmoke;
+    width: 180px;
+    padding-bottom: 15px; 
+}
+
+   .schedule-column2{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    width: 180px;
+    padding-bottom: 15px;
+}
+
+
+.schedule-time-slot{
+      text-align: center;
+      font-size: 15px;
+      font-weight: 800;
+      background-color: white;
+      width: 140px;
+      border: 1px solid black;  
+      border-radius: 5px;
+      margin-top: 10px;  
+      
+    }
+    .schedule-time-slot-unselected{
+      text-align: center;
+      font-size: 15px;
+      font-weight: 800;
+      background-color: white;
+      width: 140px;
+      border: 1px solid black;  
+      border-radius: 5px;
+      margin-top: 10px;  
+      
+    }
+
+
+.schedule-time-slot:hover{
+    text-align: center;
+    background-color: #d6dce9; 
+    width: 140px;
+    border: 1px solid black;  
+    border-radius: 5px;
+    margin-top: 10px;   
+      }
+.schedule-time-slot-selected{
+      background-color: #4267B2; 
+      color: white;
+    }
+    
+.schedule-time-slot-confirmed{
+      background: #4267B2;
+      opacity: 30%;
+      color: white;
+    }
+
+
+
+.schedule-time-slot-selected-teacher{
+      background-color: white; 
+      color: black;
+    }
+
+.schedule-time-slot-selected-booked{
+      background-color: green; 
+      color: white;
+    }
+    
+    .notice {
+      display: none;
+    }
+    
+    .schedule-time-slot-notClikable:hover ~ .notice {
+      display: block;
+    }
+    
+    .schedule-time-slot-notClikable {
+      color: lightgray;
+    }
+
+
+    .schedule-time-slot-reserved{
+      background-color: #4267B2;
+      opacity: 30%;
+      color: white;
+      position: relative;
+    }
+
+
+  .schedule-time-slot.confirmed{
+      background: #4267B2; 
+      opacity: 30%;
+      color:white;
+      position: relative;
+      
+  }
+
+  .schedule-time-slot.confirmed::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: auto;
+    z-index: 1;
+  }
+  
+  .dateconfirmedhover {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: absolute;
+    left: 120px;
+    top: -65px;
+    background-color: black;
+    color: white;
+    width: 80px;
+    height: 80px;
+    border-radius: 25px 25px 25px 0px;
+  }
+  
+  
+
+  
+  .schedule-time-slot.booked {
+    background: greenyellow;
+    color: white;
+    position: relative;
+  }
+  
+  .schedule-time-slot.booked::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: auto;
+    z-index: 1;
+  }
+  
+  .datebookedhover {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: absolute;
+    left: 120px;
+    top: -65px;
+    background-color: black;
+    color: white;
+    width: 80px;
+    height: 80px;
+    border-radius: 25px 25px 25px 0px;
+  }
+  
+  
+  
+
+.saveButton{
+  margin-top: 30px;
+  display: flex;
+
+}
+
+.saveButtonClassSchedule{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 50px;
+  background-color: #4267B2;
+  color: white;
+  font-size: 20px;
+  font-family: 'Poppins',sans-serif;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.saveButtonClassSchedule h4{
+color:white;
+}
+
+.cancelButtonClassSchedule{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 50px;
+  width: 200px;
+  height: 50px;
+  background-color: lightgrey;
+  font-size: 20px;
+  font-family: 'Poppins',sans-serif;
+  border-radius: 10px;
+  cursor: pointer;
+
+}
+
+
+.summary h1{
+  font-family: 'Poppins',sans-serif;
+  font-size: 15px;
+}
+
+
+.savedInfoOKText h4{
+  margin-top: 20px;
+  margin-bottom: 20px;
+  color: green;
+  font-weight: 800;
+}
+
+.savedInfoErrorText h4{
+  margin-top: 20px;
+  margin-bottom: 20px;
+  color: red;
+  font-weight: 800;
+}
+.mainSlotDivTeacher{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  
+}
+
+    
+ @media only screen and (max-width: 1400px) {
+       
+    #calendar-container{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .schedule-container{
+        margin-top: 20px;
+      
+    
+    
+      }
+      .schedule-columns{
+        display: flex;
+   
+              }
+    
+      .schedule-header{
+        font-size: 20px;
+        padding: 1rem;
+        text-align: center;
+        background-color: #4267B2;
+        color: white;
+        font-weight: 800;
+        font-family: 'Poppins', sans-serif;
+      }
+      }

@@ -1,0 +1,47 @@
+<%- include('partials/header'); -%>
+
+<div class="container">
+
+     
+
+    <% function getMonthName(month) {
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+           "July", "August", "September", "October", "November", "December"];
+        return monthNames[month];
+      }
+      
+      function formatTime(date) {
+        const options = {hour: 'numeric', minute: 'numeric', hour12: true};
+        return date.toLocaleTimeString(undefined, options);
+      }
+   %>
+
+   <div class="studentsListRequestes">
+      
+          <div class="studentReservationTitle">
+            <h1>Messages from students</h1>
+           </div>
+
+           <div class="mainBoxDiv">     
+           <% for (let i = 0; i < messagesArrayUpdate.length; i++) { %>
+            <% const message = messagesArrayUpdate[i]; %>
+            <a href="/studentmessage/<%= message._id %>">
+            <div class="boxDivConfirmEnd" id="<%= message._id %>">
+              <div class="boxDivleftSide">
+                <div class="boxTimeSlot"> <p> You have a new message from   </p></div>
+                <div class="nameAndImage">
+                  <div class="boxName"> <p><b><%= message.senderFirstName %> <%= message.senderLastName %></b> from <%= message.senderCountry %></p></div>
+                  <div class="boxImg"><img  class="imageProfile"src="<%= message.senderImgProfile %>" alt=""> </div> 
+               
+                </div>
+                
+                <div class="boxTimeSlot" style="margin-bottom: 5px;"> <p>  <%= moment(message.createdAt).utc().format("DD MMMM HH:mm") %>   </p></div>
+             
+              </div>
+            </div>
+          </a>
+              <% } %>
+           </div>
+
+
+   </div>

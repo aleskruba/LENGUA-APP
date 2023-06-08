@@ -1,0 +1,206 @@
+<link rel="stylesheet" href="/studentMessageID.css">
+<%- include('partials/header'); -%>
+<input type="text" style="display: none" value="<%= user._id %>" class="catchUserID">
+
+<div class="chatDivMainContainer">
+<div class="chatDivContainer">
+
+    <div class="mainChatBox">
+            <div class="mainChatBoxLeftSide">
+              <div class="mainChatBoxLeftSideTop">
+                <input type="text"  class="mainChatBoxLeftSideTopInput" placeholder="Search by name" id="searchInput">
+           </div>
+          
+          
+                <div class="mainChatBoxLeftSideBottom">
+                             
+                      
+                </div>
+            </div>
+
+            <div class="mainChatBoxRightSideFlex">
+            <div class="mainChatBoxRightSide">
+           
+           
+    </div>
+
+    </div>
+</div>
+  
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+
+
+<script>
+       
+
+
+  const searchInput = document.getElementById("searchInput");
+
+searchInput.addEventListener("input", function() {
+  enforceMaxLength(this, 50);
+});
+
+function enforceMaxLength(input, maxLength) {
+  if (input.value.length > maxLength) {
+    input.value = input.value.slice(0, maxLength);
+  }
+}
+
+let catchUserID = document.querySelector('.catchUserID')
+let userID = catchUserID.value
+
+
+let counterArray = 0;
+
+  function test(){
+    location.reload()
+  }
+
+let messageId;
+const mainChatBoxLeftSideTopInput = document.querySelector('.mainChatBoxLeftSideTopInput')
+const mainChatBoxLeftSideBottom = document.querySelector('.mainChatBoxLeftSideBottom');
+
+
+let filteredArray = []; // Array to store the filtered messages
+
+function filterMessages() {
+  const searchTerm = mainChatBoxLeftSideTopInput.value.toLowerCase();
+
+  filteredArray = messagesArrayUpdate.filter(element => {
+    const fullName = `${element.senderFirstName} ${element.senderLastName}`.toLowerCase();
+    return fullName.includes(searchTerm);
+  });
+
+  displayFilteredMessages();
+}
+
+const messagesArrayUpdate = JSON.parse('<%- messagesArrayUpdate %>');
+
+
+messagesArrayUpdate.sort((a, b) => moment(b.createdAt) - moment(a.createdAt));
+
+
+  function displayFilteredMessages() {
+  let arrayToShow = messagesArrayUpdate;
+
+  if (mainChatBoxLeftSideTopInput.value.trim() !== '') {
+    arrayToShow = filteredArray;
+  }
+
+  
+
+  const keyframes = `
+  @keyframes colorChange {
+    0% {
+      background-color: #f1f1f1; /* Initial color (gray) */
+    }
+    50% {
+      background-color: #5c9ded; /* Intermediate color */
+    }
+    100% {
+      background-color: #f1f1f1; /* Final color (gray) */
+    }
+  }
+`;
+
+let html = '';
+let isReadinThread;
+let isReadinThreadValue;
+
+arrayToShow.forEach(element => {
+
+
+  element.threads.map(element2=>{ 
+   isReadinThread = element2.isRead
+   isReadinThreadValue = element2.sender
+  })
+
+  // Check the isRead property to conditionally apply the animation
+  const animationStyle = !element.isRead && isReadinThreadValue!=element.sender_id  || (!isReadinThread && element.threads.length>0 &&  isReadinThreadValue == element.sender_id )    ? `animation-name: colorChange; animation-duration: 2s; animation-timing-function: ease; animation-iteration-count: infinite;` : '';
+ 
+  if (!element.isRead || (!isReadinThread && element.threads.length>0 &&  isReadinThreadValue == element.sender_id )  ) {
+      counterArray +=1
+
+    }
+
+  html += `
+    <a href="/studentmessage/${element._id}">
+      <style>${keyframes}</style> <!-- Include the keyframes rule -->
+      <div class="mainChatBoxLeftSideBottomBox" style="${animationStyle}" ${!element.isRead && isReadinThreadValue!=element.sender_id   || !isReadinThread&& isReadinThreadValue==element.sender_id  ? `onclick="changeStatus('${element._id}')"` : 'onclick="showChatBoxes()"'}>
+        <div class="mainChatBoxLeftSideBottomBoxImg">
+          <img src="${element.senderImgProfile}" alt="" class="mainChatBoxLeftSideBottomBoxImgTag">
+        </div>
+        <div class="mainChatBoxLeftSideBottomBoxName">
+          <h2 class="mainChatBoxLeftSideBottomBoxNameH2">${element.senderFirstName} ${element.senderLastName}</h2>
+        </div>
+        <div class="mainChatBoxLeftSideBottomBoxDate">
+          <h2 class="mainChatBoxLeftSideBottomBoxDateH2">${moment(element.createdAt).utc().format("DD MMMM HH:mm")}</h2>
+        </div>
+      </div>
+    </a>
+  `;
+
+
+});
+
+
+  mainChatBoxLeftSideBottom.innerHTML = html;
+
+
+  
+
+
+}
+async function changeStatus(id) {
+
+
+
+  showChatBoxes()
+  try {
+    const res = await fetch(`/studentmessageChangeStatus`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id }) // Include the id in the request payload
+    });
+    
+   
+  } catch (error) {
+    console.log(error); // Log the error for debugging
+  }
+}
+
+
+filterMessages();
+
+mainChatBoxLeftSideTopInput.addEventListener('input', filterMessages)
+
+const hidingArrow = document.querySelector('.hidingArrow')
+                                const mainChatBoxLeftSide = document.querySelector('.mainChatBoxLeftSide')
+                                const mainChatBoxRightSide = document.querySelector('.mainChatBoxRightSide')
+                                const mainChatBoxRightSideFlex = document.querySelector('.mainChatBoxRightSideFlex')
+                                const chatInputButton = document.querySelector('.chatInputButton')
+                                
+                                function hideDiv() {
+                                  if (window.innerWidth <= 768) {
+                                 
+                                    mainChatBoxLeftSide.style.display = 'flex'
+                                    mainChatBoxRightSideFlex.style.display = 'none'
+                                  chatInputButton.style.display = 'none'
+                               }}
+
+                                function showChatBoxes() {
+                                        if (window.innerWidth <= 768) {
+                                 
+                                        mainChatBoxLeftSide.style.display = 'none';
+                                        chatInputButton.style.display = 'flex'
+                                        mainChatBoxRightSideFlex.style.display = 'block'; 
+                                      } 
+                                }
+                    
+                                mainChatBoxLeftSide.style.display = 'flex'
+                                if (window.innerWidth <= 768) {      mainChatBoxRightSideFlex.style.display = 'none'}
+
+</script> 
+<%- include('partials/footer'); -%>

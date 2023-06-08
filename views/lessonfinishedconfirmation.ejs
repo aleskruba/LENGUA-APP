@@ -1,0 +1,149 @@
+<%- include('partials/header'); -%>
+
+<div class="container">
+
+   
+
+    <% function getMonthName(month) {
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+           "July", "August", "September", "October", "November", "December"];
+        return monthNames[month];
+      }
+      
+      function formatTime(date) {
+        const options = {hour: 'numeric', minute: 'numeric', hour12: true};
+        return date.toLocaleTimeString(undefined, options);
+      }
+   %>
+
+   <div class="studentsListRequestes">
+    <div class="confirmedSuccefully" style="display: none;">
+       <h2>Confirmed suscessfuly</h2>
+  
+         
+      </div> 
+      <div class="rejectedSuccefully" style="display: none;">
+        <h2>Admin will contact you soon</h2>
+   
+          
+       </div> 
+      
+ 
+       <div class="mainBoxDiv">
+
+        <div class="studentReservationTitle">
+          <h1>Please confirm your lessons here<h1>
+         </div>
+      <% for (let i = 0; i < bookedLessons.length; i++) { %>
+      <% const lesson = bookedLessons[i]; %>
+      <% if (lesson.isConfirmed && !lesson.isRejected && !lesson.isCompleted && !lesson.completedProblem) { %>
+        <div class="boxDivConfirmEnd" id="<%= lesson._id %>">
+    
+          <div class="boxDivConfirmEndText">
+            <textarea class="boxDivConfirmEndTextArea" maxlength="500" id="reviewInput" cols="50" rows="5" placeholder="How was your lesson with <%= lesson.teacherFirstName %> ?&#10;You can leave a review here"></textarea>
+          </div>
+          
+          
+          <div class="boxDivConfirmTop">
+            
+          <div class="boxDivleftSide">
+            <div class="nameAndImage">
+              <div class="boxName"> <p><b><%= lesson.teacherFirstName %> <%= lesson.teacherLastName %></b></p></div>
+              <div class="boxImg"><img  class="imageProfile"src="<%= lesson.teacherProfile%>" alt=""> </div> 
+              </div>
+          <% for (const timeSlot of lesson.timeSlot) { %>
+            <% const date = new Date(parseInt(timeSlot)); %>
+
+            <div class="boxTimeSlot"> <p><%= moment(date).utc().format("DD MMMM HH:mm") %> - <%= moment(date).add(1, 'hour').utc().format("HH:mm") %></p></div>
+          <% } %>
+          
+          </div>
+          <div class="boxDivRightSide">
+              <div class="boxButtonConfirm">  <button  onclick="confirmLesson(`<%= lesson._id %>`)">Confirm</button></div>
+              <div class="boxButtonReject">  <button  onclick="rejectLessonFinishedConfirmation(`<%= lesson._id %>`)">There was some problem</button></div>
+          </div>
+        </div> 
+        </div>
+      <% } %>
+    <% } %>
+    
+  </div>  
+  <% if ( bookedLessons.length == 0) { %>    <div class="noRequest">   <h2> you have no requests </h2> </div>  <% } %>
+
+   </div>
+
+
+
+
+      
+</div>
+
+<script>
+
+
+
+
+function confirmLesson(lessonID) {
+  try {
+    const reviewInput = document.getElementById('reviewInput').value;
+
+    // Make a PUT request to confirm the lesson
+    fetch('/confirmFinishedLesson', {
+      method: 'PUT',
+      body: JSON.stringify({ lessonID, reviewInput }),
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+    // Display confirmation message
+    const confirmedSuccefully = document.querySelector('.confirmedSuccefully');
+    confirmedSuccefully.style.display = "block";
+
+    const lessonDiv = document.getElementById(lessonID);
+    lessonDiv.className = 'StudentsReservationListIsConfirmed';
+
+     setTimeout(() => {
+      confirmedSuccefully.style.display = "none";
+      location.reload();
+    }, 1000);
+
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+
+
+function rejectLessonFinishedConfirmation(lessonID) {
+
+  const reviewInput = document.getElementById('reviewInput').value;
+
+  try {
+    // Make a PUT request to confirm the lesson
+    fetch('/confirmFinishedLessonReject',{
+      method:'PUT',
+      body: JSON.stringify({ lessonID,reviewInput}),
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+
+    // Display confirmation message
+    const rejectedSuccefully = document.querySelector('.rejectedSuccefully')
+    rejectedSuccefully.style.display = "block"
+
+    const lessonDiv = document.getElementById(lessonID);
+    lessonDiv.className = 'StudentsReservationListIsRejected';
+
+ 
+      setTimeout(() => {    
+        rejectedSuccefully.style.display = "none"
+        location.reload();
+    }, 1500);
+
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+
+
+</script>
