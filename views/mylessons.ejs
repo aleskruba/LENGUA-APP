@@ -19,38 +19,52 @@
    %>
 
    <div class="mainBoxDiv">
-        
-        <div class="studentReservationTitle">
-          <h1>List of my classes </h1>
-        </div>
-
-      <% for (let i = 0; i < myLessonArray.length; i++) { %>
+    <div class="studentReservationTitle">
+      <h1>List of upcoming lessons</h1>
+    </div>
+  
+    <% for (let i = 0; i < myLessonArray.length; i++) { %>
       <% const lesson = myLessonArray[i]; %>
-      <% if (lesson.isConfirmed  && !lesson.isCompleted) { %>
-
-
-        <div class="boxDivConfirmEnd" id="<%= lesson._id %>">
-          <div class="boxDivleftSideMyBookingLessons">   
-
-            <div class="nameAndImage">
-              <div class="boxName"> <p><b><%= lesson.studentFirstName %> <%= lesson.studentLastName %></b></p></div>
-              <div class="boxImg"><img  class="imageProfile"src="<%= lesson.studentProfile %>" alt=""> </div> 
+      <% const isLessonConfirmedAndNotCompleted = lesson.isConfirmed && !lesson.isCompleted; %>
+      <% if (isLessonConfirmedAndNotCompleted) { %>
+        <% let isLessonUpcoming = false; %>
+        <% for (const timeSlot of lesson.timeSlot) { %>
+          <% const date = new Date(parseInt(timeSlot)); %>
+          <% if (date >= new Date()) { %>
+            <% isLessonUpcoming = true; %>
+            <div class="boxTimeSlot">
             </div>
-          <% for (const timeSlot of lesson.timeSlot) { %>
-            <% const date = new Date(parseInt(timeSlot)); %>
-
-            <div class="boxTimeSlot">   <p><%= moment(date).utc().format("DD MMMM HH:mm") %> - <%= moment(date).add(1, 'hour').utc().format("HH:mm") %></p></div>
-            <% } %>
-          </div>
-            <div class="boxDivRightSideMyLessons">
-            <div class="totalLessonWithStudent"> <p>1 lesson</p></div> 
-            </div>
-          
-       
-      </div>
- 
+          <% } %>
         <% } %>
+        <% if (isLessonUpcoming) { %>
+          <div class="boxDivConfirmEnd" id="<%= lesson._id %>">
+            <div class="boxDivleftSideMyBookingLessons">
+              <div class="nameAndImage">
+                <div class="boxName">
+                  <p><b><%= lesson.studentFirstName %> <%= lesson.studentLastName %></b></p>
+                </div>
+                <div class="boxImg">
+                  <img class="imageProfile" src="<%= lesson.studentProfile %>" alt="">
+                </div>
+              </div>
+              <% for (const timeSlot of lesson.timeSlot) { %>
+                <% const date = new Date(parseInt(timeSlot)); %>
+                <% if (date >= new Date()) { %>
+                  <div class="boxTimeSlot">
+                    <p><%= moment(date).utc().format("DD MMMM HH:mm") %> - <%= moment(date).add(1, 'hour').utc().format("HH:mm") %></p>
+                  </div>
+                <% } %>
+              <% } %>
+            </div>
+            <div class="boxDivRightSideMyLessons">
+       
+            </div>
+          </div>
+        <% } %>
+      <% } %>
     <% } %>
+  </div>
+  
     
   </div>  
   <% if ( myLessonArray.length == 0) { %>    <div class="noRequest">   <h2> you have no requests </h2> </div>  <% } %>

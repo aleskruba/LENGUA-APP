@@ -1,0 +1,77 @@
+.allclassestablegridwrapper {
+    display: grid;
+    gap: 5px;
+    padding: 5px;
+    font-size: 14px;
+  }
+  
+  
+  
+  .allclassestablegridwrapper .headerAllUsersBank {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    font-weight: bold;
+    background-color: #f1f1f1;
+    padding: 10px;
+    border: 1px solid #ccc;
+  }
+  
+  .allclassestablegridwrapper .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr; /* Modified property */
+    gap: 5px;
+    background-color: #fff;
+    padding: 2px;
+  }
+  
+  .allclassestablegridwrapper .row:nth-child(even) {
+    background-color: #f1f1f1;
+  }
+  
+  .allclassestablegridwrapper .row .cell  {
+    padding: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .allclassestablegridwrapperOverflow {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #f5f5f5;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .allclassestablegridwrapperOverflow::-webkit-scrollbar {
+    width: 8px;
+    background-color: #f5f5f5;
+  }
+  
+  .allclassestablegridwrapperOverflow::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+  }
+  
+  .allclassestablegridwrapperOverflow::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+  }
+  
+  .allclassestablegridwrapperOverflow::-webkit-scrollbar-track {
+    background-color: #f5f5f5;
+  }
+  
+  
+  @media (max-width: 767px) {
+    .allclassestablegridwrapper .row .cell {
+      font-size: 12px;
+    }
+    .allclassestablegridwrapper .row {
+      grid-template-columns: repeat(2, 1fr); /* Change from 4 to 2 columns */
+      border: 2px solid black;
+    }
+    .allclassestablegridwrapper .headerAllUsersBank {
+      display: none;
+    }
+  }
+  

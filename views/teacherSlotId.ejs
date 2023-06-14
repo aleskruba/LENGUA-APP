@@ -44,7 +44,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.33/moment-timezone-with-data.min.js"></script>
 
 <script>
-  console.log('user')
+
   const teacher_Id = '<%= teacher_Id %>';
   const teacherIdUser = '<%= teacherIdUser %>';
   const teachingSlots = '<%= teachingSlots %>';
@@ -57,7 +57,7 @@
 
   let teachingSlotsArray = teachingSlots.split(',');
   const learningSlotsArray = []
-  //console.log(teachingSlotsArray)
+  
 
   let isSelectedbyStudent = false
   let isSelected = false; 
@@ -115,8 +115,6 @@
     if (matchingHours.length == alreadyBookedLessonsArraySplit.length && matchingHours.some(el => el == alreadyBookedLessonsArraySplit[1])) {
   soldOutLessons = true;
 }
-
-   //console.log(matchingHours.length, '  ',alreadyBookedLessonsArraySplit.length,' ',matchingHours.some(el=> el == alreadyBookedLessonsArraySplit[1]) )
 
 
     if (date.date() === 1) {
@@ -296,8 +294,7 @@
             scheduleContainer.querySelectorAll('.schedule-time-slot-selected-teacher:not(.schedule-time-slot.booked):not(.schedule-time-slot-reserved):not(.schedule-time-slot-confirmed)').forEach((timeSlotEl) => {
              
               timeSlotEl.addEventListener('click', () => {
-                console.log('clisk')
-
+              
                 
                 const selectedTimeSlotEl = scheduleContainer.querySelector('.schedule-time-slot-selected-teacher');
 
@@ -318,7 +315,7 @@
                     { timeSlotEl.classList.remove('schedule-time-slot-selected-booked'); 
                      const index = learningSlotsArray.indexOf(utcDateTime.toString());
                      learningSlotsArray.splice(index, 1);
-                      console.log(learningSlotsArray)
+
                       const newElement = document.querySelector('.p');
                       summary.removeChild(newElement);
                       
@@ -346,7 +343,7 @@
                const saveButtonClass = document.querySelector('.saveButtonClassSchedule');
                const cancelButtonClass = document.querySelector('.cancelButtonClassSchedule');
                 
-                const teacherTax = '<%= teacherIdUser %>';
+                const teacherTax = '<%= TeaacherTax %>';
                 const paymentButton = document.querySelector('.paymentButton')
                 paymentButton.textContent = `You will pay $${teacherTax*learningSlotsArray.length}`
 
@@ -395,7 +392,7 @@ const calendarContainer = document.querySelector('#calendar-container');
       const myCalendar = calendar(calendarContainer);
 
       calendarContainer.addEventListener('dateSelected', (event) => {
-        console.log(event.detail);
+   
       });
 
 
@@ -410,8 +407,8 @@ async function saveDates(){
   const saveButtonClass = document.querySelector('.saveButtonClassSchedule');
   const cancelButtonClass = document.querySelector('.cancelButtonClassSchedule');
 
-  const teacherTax = '<%= teacherIdUser %>';
-  if (teacherTax !== 's' ) {
+  const teacherTax = '<%= TeaacherTax %>';
+  if (teacherTax > 0 ) {
       try {
 
         saveButtonClass.style.pointerEvents = "none";

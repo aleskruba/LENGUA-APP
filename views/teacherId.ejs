@@ -73,21 +73,25 @@
     <div class="teacherReviews">
       <h2>Reviews</h2>
       <div class="teacherReviewsGrid">
-      <% lessonArray.forEach(function(review) { %>
-      <div class="teacherReviewsMainBox">
-          <div class="teacherReviewsnameAndImage">
-              <div class="boxName"> <p><b><%= review.studentFirstName %><%= review.studentLastName %></b>
-                <p class="teacherReviewsMainBoxDate" ><%= moment(review.createdAt).utc().format("DD MMMM HH:mm") %>
-                </p>
+        <% lessonArray.sort(function(a, b) {
+          return new Date(b.completedConfirmedByStudentAt) - new Date(a.completedConfirmedByStudentAt);
+        });
+        
+        lessonArray.forEach(function(review) { %>
+          <div class="teacherReviewsMainBox">
+            <div class="teacherReviewsnameAndImage">
+              <div class="boxName">
+                <p><b><%= review.studentFirstName %><%= review.studentLastName %></b></p>
+                <p class="teacherReviewsMainBoxDate"><%= moment(review.completedConfirmedByStudentAt).utc().format("DD MMMM HH:mm") %></p>
               </div>
-              <div class="boxImg"><img  class="imageProfile"src="<%= review.studentProfile%>" alt=""> </div> 
-          </div>  
-                
-        <div class="teacherReviewsBottom"> 
-        <p class="teacherReviewsBottomPtag"><%= review.ranking %> </p>
-         </div> 
-      </div>
-      <% }); %>
+              <div class="boxImg"><img class="imageProfile" src="<%= review.studentProfile %>" alt=""></div>
+            </div>
+            <div class="teacherReviewsBottom">
+              <p class="teacherReviewsBottomPtag"><%= review.ranking %></p>
+            </div>
+          </div>
+        <% }); %>
+        
   </div>
 </div>
 

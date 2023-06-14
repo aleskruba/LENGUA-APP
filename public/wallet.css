@@ -45,6 +45,11 @@ text-align: center;
 
 }
 
+.myBalanceButtonButtons{
+  display: flex;
+  justify-content: space-around;
+}
+
 .myBalanceButton button{
     cursor: pointer;
 }

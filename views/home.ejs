@@ -1,5 +1,27 @@
 <%- include('partials/header'); -%>
 <div class="non-clickable">
+
+  <% if (!user) { %>
+  <div class="secretdata" style="position: absolute; left:30px; top:150px ;font-size: 15px; font-weight: 100;">
+    <h5>Choose some user or create a new one</h5>
+    <br>
+    <h5>francois@france.cz : 123456</h5>
+    <h5>ales@seznam.cz : 123456</h5>
+    <h5>adela@email.com : 123456</h5>
+    <h5>petr@petr.cz : 123456</h5>
+    <h5>anna@italia.com : 123456</h5>
+    <h5>john@usa.com : 123456</h5>
+    <h5>inge@germany.com : 123456</h5>
+    <h5>maria@brazil.com : 123456</h5>
+    <h5>andy@uk.com : 123456</h5>
+    <h5>jose@mexico.com : 123456</h5>
+    <h5>paola@brazil.com: 123456</h5>
+    <br>
+    <span style="font-weight: 800;">admin</span>
+    <h5>reactbrno@centrum.cz: admin12345</h5>
+  </div>
+  <% } %>
+
 <header>
   <div class="smoothie">
     <img src="/girl.jpg" alt="">

@@ -149,7 +149,7 @@ module.exports.update_put = async (req, res, next) => {
           const errors = handleErrors(err);
           res.status(400).json({ errors });
         }
-        next();
+
       }
     });
   } else {
@@ -334,8 +334,7 @@ module.exports.deleteLanguage_post = async (req, res, next) => {
           res.status(400).json({ errors });
         }
 
-        next();
-      }
+         }
     });
   } else {
     res.locals.user = null;
@@ -384,7 +383,6 @@ module.exports.deleteTeachLanguage_post = async (req, res, next) => {
 
 module.exports.updateLanguage_put = async (req, res, next) => {
   const lang = req.body.lang
-
   const token = req.cookies.jwt;
   if (token) {
     jwt.verify(token, process.env.KEY, async (err, decodedToken) => {
@@ -401,7 +399,7 @@ module.exports.updateLanguage_put = async (req, res, next) => {
           const errors = handleErrors(err);
           res.status(400).json({ errors });
         }
-        next();
+
       }
     });
   } else {
@@ -540,13 +538,12 @@ module.exports.teacherZoneUpdatePut = async (req, res, next) => {
         try {
           await User.updateOne({ _id: user._id }, {  teachlang:LanguageArray, profileText, profileVideo, tax });
           res.status(201).json({ user: user._id });
-          next();
+   
         } catch (err) {
           const errors = handleErrors(err);
           res.status(400).json({ errors });
         }
-        next();  
-      }      
+       }      
     });
   } else {
     res.locals.user = null;
@@ -677,8 +674,36 @@ module.exports.wallet_get = (req, res) => {
 
 
 module.exports.payment_get = (req, res) => {
-  res.render('payment', { moment: moment });
+  const token = req.cookies.jwt;
+  
+  if (token) {
+    jwt.verify(token, process.env.KEY, async (err, decodedToken) => {
+      if (err) {
+        res.locals.user = null;
+        next();
+      } else {
+        let user = await User.findById(decodedToken.id);
+        res.locals.user = user;
+        try {
+
+
+          res.render('payment', { moment: moment });
+             } catch (err) {
+          const errors = handleErrors(err);
+          res.status(400).json({ errors });
+        }
+          }
+    });
+  } else {
+    res.locals.user = null;
+  }
+
 }
+
+module.exports.withdraw_get = (req, res) => {
+  res.render('withdraw', { moment: moment });
+}
+
 
 module.exports.policies_get = (req, res) => {
   res.render('policies');
@@ -812,8 +837,6 @@ module.exports.teachers_data_get = async (req, res) => {
 
 
 
-module.exports.transaction_get = (req, res) => {
-}
 
 module.exports.transaction_post = (req, res,next) => {
   const transaction = req.body.transaction
@@ -862,6 +885,56 @@ module.exports.transaction_post = (req, res,next) => {
     next();
   }
 }
+
+
+module.exports.withdrawTransaction_post = (req, res,next) => {
+  const transaction = req.body.transaction
+  const credits = req.body.credits
+
+  const token = req.cookies.jwt;
+  if (token) {
+    jwt.verify(token, process.env.KEY, async (err, decodedToken) => {
+      if (err) {
+        res.locals.user = null;
+        next();
+      } else {
+        let user = await User.findById(decodedToken.id);
+        res.locals.user = user;
+         try {   
+             await User.updateOne({ _id: user._id },{ $addToSet: { transaction: transaction } });
+             await User.updateOne({ _id: user._id },{$inc:  { credits:-credits }});
+
+          
+             await Account.updateOne({ _id: '64608bcbec0b9aed6a3d6afe' }, { $inc: { account: parseInt(credits)-2 } });
+
+             const account = await Account.findOne({ _id: '64608bcbec0b9aed6a3d6afe' });
+            
+             await Bank.create({
+              currentBalance: {
+                currentBalance:  account.account,
+                TransactedDay: Date.now(),
+              },
+              moneyWithdrawnByTeacher: {
+                idTeacher: user._id,
+                amount: -1*(parseInt(credits)-2) ,
+              },
+            });
+
+
+          res.status(201).json({ user: user._id });
+        } catch (err) {
+          const errors = handleErrors(err);
+          res.status(400).json({ errors });
+        }
+   
+      }      
+    });
+  } else {
+    res.locals.user = null;
+    next();
+  }
+}
+
 
 
 module.exports.logout_get = (req, res) => {

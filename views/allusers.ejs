@@ -1,0 +1,131 @@
+<%- include('partials/header'); -%>
+
+<link rel="stylesheet" href="/allusers.css">
+
+
+<div class="alluserstablegridwrapper">
+    <div class="row">
+      <div class="cell"><input type="text" placeholder="id" id="searchInputId"></div>
+      <div class="cell"><input type="text" placeholder="sec. ID" id="searchInputSecID"></div>
+      <div class="cell"><input type="text" placeholder="email" id="searchInputEmail"></div>
+      <div class="cell"><input type="text" placeholder="first name" id="searchInputFirstName"></div>
+      <div class="cell"><input type="text" placeholder="last name" id="searchInputLastName"></div>
+      <div class="cell"><input type="text" placeholder="country" id="searchInputCountry"></div>
+    </div>
+
+    
+
+<div class="alluserstablegridwrapperOverflow">
+  <% users.sort(function(a, b) {
+      return a.lastName - b.lastName;
+  });
+    
+  users.forEach(function(element, index) { %>
+    <a href="allusers/<%= element.idUser %>">
+      <div class="row <% if (index >= 5) { %>hidden-row<% } %>">
+          <div class="cell"><%= element._id %></div>
+          <div class="cell"><%= element.idUser %></div>
+          <div class="cell"><%= element.email %></div>
+          <div class="cell"><%= element.firstName %></div>
+          <div class="cell"><%= element.lastName %></div>
+          <div class="cell"><%= element.country %></div>
+      </div>
+    </a>
+  <% });
+  %>
+  <div class="row ellipsis-row">
+    <div class="cell" colspan="6">...and <%= users.length %> more users</div>
+  </div>
+
+</div>
+
+
+<%- include('partials/footer'); -%>
+
+<script>// Get references to the input elements
+  const searchInputId = document.getElementById('searchInputId');
+  const searchInputSecID = document.getElementById('searchInputSecID');
+  const searchInputEmail = document.getElementById('searchInputEmail');
+  const searchInputFirstName = document.getElementById('searchInputFirstName');
+  const searchInputLastName = document.getElementById('searchInputLastName');
+  const searchInputCountry = document.getElementById('searchInputCountry');
+  
+  // Add event listeners to the input elements
+  searchInputId.addEventListener('input', handleSearch);
+  searchInputSecID.addEventListener('input', handleSearch);
+  searchInputEmail.addEventListener('input', handleSearch);
+  searchInputFirstName.addEventListener('input', handleSearch);
+  searchInputLastName.addEventListener('input', handleSearch);
+  searchInputCountry.addEventListener('input', handleSearch);
+  
+  const alluserstablegridwrapperOverflow = document.querySelector('.alluserstablegridwrapperOverflow');
+  const maxVisibleRows = 5;
+  const ellipsisRow = document.querySelector('.ellipsis-row'); // Add this line
+  
+  // Function to handle the search functionality
+  function handleSearch() {
+    // Retrieve the input values
+    const idValue = searchInputId.value.toLowerCase();
+    const secIDValue = searchInputSecID.value.toLowerCase();
+    const emailValue = searchInputEmail.value.toLowerCase();
+    const firstNameValue = searchInputFirstName.value.toLowerCase();
+    const lastNameValue = searchInputLastName.value.toLowerCase();
+    const countryValue = searchInputCountry.value.toLowerCase();
+  
+    // Get all the rows within the alluserstablegridwrapperOverflow div
+    const rows = document.querySelectorAll('.alluserstablegridwrapperOverflow .row');
+  
+    // Reset the visible rows counter and the ellipsis row display
+    let visibleRows = 0;
+  
+    // Iterate over the rows and check if they match the search criteria
+    rows.forEach((row, index) => {
+
+      const idCell = row.querySelector('.cell:nth-child(1)');
+  const secIDCell = row.querySelector('.cell:nth-child(2)');
+  const emailCell = row.querySelector('.cell:nth-child(3)');
+  const firstNameCell = row.querySelector('.cell:nth-child(4)');
+  const lastNameCell = row.querySelector('.cell:nth-child(5)');
+  const countryCell = row.querySelector('.cell:nth-child(6)');
+
+  // Check if the row and its cells exist
+  if (idCell && secIDCell && emailCell && firstNameCell && lastNameCell && countryCell) {
+    const id = idCell.textContent;
+    const secID = secIDCell.textContent;
+    const email = emailCell.textContent.toLowerCase();
+    const firstName = firstNameCell.textContent.toLowerCase();
+    const lastName = lastNameCell.textContent.toLowerCase();
+    const country = countryCell.textContent.toLowerCase();
+  
+      // Check if the row matches the search criteria
+      const matchesSearch =
+        id.includes(idValue) &&
+        secID.includes(secIDValue) &&
+        email.includes(emailValue) &&
+        firstName.includes(firstNameValue) &&
+        lastName.includes(lastNameValue) &&
+        country.includes(countryValue);
+  
+      // Show/hide rows based on the search criteria and maximum visible rows
+      if (matchesSearch && visibleRows < maxVisibleRows) {
+        row.style.display = 'grid';
+        visibleRows++;
+      } else {
+        row.style.display = 'none';
+      }
+      }
+    });
+  
+    // Show or hide the "..." row
+    if (visibleRows < rows.length) {
+      ellipsisRow.style.display = 'grid';
+    } else {
+      ellipsisRow.style.display = 'none';
+    }
+  }
+  
+  // Execute the initial search on page load
+  handleSearch();
+  
+</script>
+<%- include('partials/footer'); -%>

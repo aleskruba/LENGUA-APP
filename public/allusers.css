@@ -1,0 +1,76 @@
+.alluserstablegridwrapper {
+  display: grid;
+  gap: 5px;
+  padding: 5px;
+  font-size: 14px;
+}
+
+
+
+.alluserstablegridwrapper .headerAllUsersBank {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  font-weight: bold;
+  background-color: #f1f1f1;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.alluserstablegridwrapper .row {
+  display: grid;
+  grid-template-columns: 1fr 80px 1fr 1fr 1fr 1fr; /* Modified property */
+  gap: 5px;
+  background-color: #fff;
+  padding: 2px;
+}
+
+.alluserstablegridwrapper .row:nth-child(even) {
+  background-color: #f1f1f1;
+}
+
+.alluserstablegridwrapper .row .cell  {
+  padding: 5px;
+  border: 1px solid #ccc;
+}
+
+.alluserstablegridwrapperOverflow {
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: #f5f5f5;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.alluserstablegridwrapperOverflow::-webkit-scrollbar {
+  width: 8px;
+  background-color: #f5f5f5;
+}
+
+.alluserstablegridwrapperOverflow::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 4px;
+}
+
+.alluserstablegridwrapperOverflow::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+.alluserstablegridwrapperOverflow::-webkit-scrollbar-track {
+  background-color: #f5f5f5;
+}
+
+
+@media (max-width: 767px) {
+  .alluserstablegridwrapper .row .cell {
+    font-size: 12px;
+  }
+  .alluserstablegridwrapper .row {
+    grid-template-columns: repeat(2, 1fr); /* Change from 4 to 2 columns */
+    border: 2px solid black;
+  }
+  .alluserstablegridwrapper .headerAllUsersBank {
+    display: none;
+  }
+}

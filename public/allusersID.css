@@ -1,0 +1,166 @@
+.selectedUserTop{
+display: flex;
+align-items: center;
+justify-content: center;
+
+}
+
+.selectedUserGriduserForm{
+    width: 100vw;
+}
+.selectedUserTopImg{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.selectedUserGrid {
+    display: grid;
+    grid-template-columns: auto 1fr; /* Adjust the width of the first column as needed */
+    font-size: 14px;
+  }
+  
+  .leftColumn {
+    max-width: 150px;
+    padding: 10px;
+    grid-column: 1; /* Set the first column */
+  }
+  
+  .rightColumn {
+    padding: 10px;
+    grid-column: 2; /* Set the second column */
+  }
+  
+  .leftColumnRow{
+    grid-gap: 10px;
+
+  }
+  
+  .rightColumnRow {
+
+    grid-gap: 10px;
+    align-items: center; /* Align rows vertically in the middle */
+  }
+  
+  .leftColumnRowCell{
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    height: 40px;
+    padding: 5px;
+
+
+  }
+  .rightColumnRowCell {
+    border: 1px solid #ccc;
+    height: 40px;
+    padding: 5px;
+
+  }
+  
+  .selectedUserBottom{
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .updateSelecetedUserButton {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .cancelSelecetedUserButton {
+    background-color: #808080;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+
+  .changePasswordSelectedUser {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  
+  .updateSelecetedUserButton:hover,
+  .updateSelecetedUserButton:active {
+    background-color: #45a049;
+  }
+  
+  .cancelSelecetedUserButton:hover,
+  .cancelSelecetedUserButton:active {
+    background-color: #A9A9A9; /* Adjusted hover background color for the cancel button */
+  }
+  
+
+  .selectedUserUpdatedSucess{
+    display: flex;
+    justify-content: center;
+  }
+
+  .selectedUserUpdatedSucessH2{
+    font-size: 18px;
+    color: #4CAF50;
+  }
+
+  .leftColumnRowCellArray{
+    background-color: aquamarine;
+    border: 1px solid black;
+    padding-left: 5px;
+    margin-left: 5px;
+  }
+  @media screen and (max-width:768px) {
+
+    .selectedUserGriduserForm{
+        width: 420px;
+    }
+    .selectedUserTop {
+        height: 60px;
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .selectedUserTopImgDiv{
+        width: 100px;
+        height: 100px;
+      }
+    
+      .selectedUserTopImg {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+    
+      .rightColumn {
+        width: 300px;
+        padding: 10px;
+        grid-column: 2;
+      }
+   
+
+  }

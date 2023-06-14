@@ -1,21 +1,41 @@
 <%- include('partials/header'); -%>
 
 <div class="walletMaindiv">
-    <div class="MyWallet">
-  <h2 class="Loginh2">How many Credits would you like to purchase?
-</h2>
-    </div>
-    <div class="amount">
-        <div class="square" data-value="50" id="1">$50</div>
-        <div class="square" data-value="100" id="2">$100</div>
-        <div class="square" data-value="150" id="3">$150</div>
-        <div class="square" data-value="200" id="4">$200</div>
-        <div class="square" data-value="250" id="5">$250</div>
-        <div class="square" data-value="300" id="6">$300</div>
-        <div class="square" data-value="350" id="7">$350</div>
-        <div class="square" data-value="400" id="8">$400</div>
-
-      </div>
+  <div class="myBalanceText">
+    My Balance
+  </div>
+  <div class="myBalanceAmount">
+    $ <%= user.credits %>
+  </div>
+  <div class="MyWallet">
+    <h2 class="Loginh2">How much money would you like to withdraw</h2>
+  </div>
+  <div class="amount">
+    <% if (user.credits >= 50) { %>
+      <div class="square" data-value="50" id="1">$50</div>
+    <% } %>
+    <% if (user.credits >= 100) { %>
+      <div class="square" data-value="100" id="2">$100</div>
+    <% } %>
+    <% if (user.credits >= 150) { %>
+      <div class="square" data-value="150" id="3">$150</div>
+    <% } %>
+    <% if (user.credits >= 200) { %>
+      <div class="square" data-value="200" id="4">$200</div>
+    <% } %>
+    <% if (user.credits >= 250) { %>
+      <div class="square" data-value="250" id="5">$250</div>
+    <% } %>
+    <% if (user.credits >= 300) { %>
+      <div class="square" data-value="300" id="6">$300</div>
+    <% } %>
+    <% if (user.credits >= 350) { %>
+      <div class="square" data-value="350" id="7">$350</div>
+    <% } %>
+    <% if (user.credits >= 400) { %>
+      <div class="square" data-value="400" id="8">$400</div>
+    <% } %>
+  </div>
 
       <div class="chosenAmount">
 
@@ -80,7 +100,7 @@
      </div>
   
      <div class="bottomButtonDiv"> 
-        <button class="payButton" onCLick="savePayment()" disabled style="background-color:rgb(237, 229, 229); color: gray;">Pay $ <span class="amountWithTaxtSpan"></span></button>
+        <button class="payButton" onCLick="withdrawMoney()" disabled style="background-color:rgb(237, 229, 229); color: gray;">Withdraw $ <span class="amountWithTaxtSpan"></span></button>
         <span class="chargingText" >tax $2 is charged for each bank transaction</span>
       </div>
 
@@ -116,7 +136,7 @@ squares.forEach(square => {
     bottomPaymentDiv.style = "pointer-events: auto; opacity:100% "
 
     const amountWithTaxtSpan = document.querySelector('.amountWithTaxtSpan')
-    amountWithTaxtSpan.innerHTML = parseInt(amount)+2
+    amountWithTaxtSpan.innerHTML = parseInt(amount)-2
 
     
 
@@ -140,12 +160,12 @@ function redirectButton(){
 const formattedDate = moment().format('YYYY-MM-DD HH:mm:ss');
 
 
-async function savePayment(){
+async function withdrawMoney(){
 
       try {
-      const res = await fetch('/updateTransaction', {
+      const res = await fetch('/withdrawTransaction_post', {
         method: 'POST',
-        body: JSON.stringify({ credits: amount, transaction:{date: formattedDate, description:'buying credits', amount:amount, completed:'completed'} }),
+        body: JSON.stringify({ credits: amount, transaction:{date: formattedDate, description:'withdraw money', amount:-amount, completed:'completed'} }),
         headers: { 'Content-Type': 'application/json' },
       });
 

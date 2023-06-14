@@ -19,11 +19,17 @@
     </div>
     <div class="rightSize">
 
+      
       <nav class="navbarDiv">
+      
+
+
         <div>
         <ul>
           <% if (user) { %>
-     
+                <% if (user && user.admin===false) { %>
+
+
                                             <li>
                                               <div class="confirmationDiv" ></div>
                                             </li>
@@ -67,11 +73,28 @@
           
           <% } %>
           <li>
+            <% }else { %> 
+           
+                <li><a href="/banktransactions">Bank</a></li>
+                <li><a href="/allusers">All Users</a></li>
+                <li><a href="/allclasses">All Classes</a></li>
+                  
+              <%} %>
             </ul>
           </div>
           <div>  
+
           <ul>
-            <div class="headerImg"> <img src="<%= user.profile %>" alt=""> 
+            <% if (user && user.admin===false) { %><div class="headerImg">
+              
+              <% if (user.profile) { %>      
+                <img src="<%=user.profile%>" alt="">
+            <% } else { %>
+              <img src="/avatar.png" alt="">
+              <% } %>
+
+
+              <%} else { %><div class="headerImg">      <a href="/adminprofile">  <img src="/admin.jpg" alt=""> </a><%}  %>
               <a href="/teacherstudentmessage">              <div class="messageDiv" ><svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 12.414V5a2 2 0 0 0-2-2H5c-1.1 0-2 .9-2 2v14l4-4h12a2 2 0 0 0 2-2v-1.586l-4 4z" />
                 <circle cx="8" cy="10" r="0.5" fill="black" />
@@ -89,6 +112,9 @@
   
               </div> 
           </li>
+         
+     
+
           <li><a href="/logout">Log out</a></li>
         
           <%} else { %> 
@@ -98,6 +124,8 @@
 
         </ul>
       </div>
+
+
       </nav>
 
   </div>
@@ -291,7 +319,7 @@ fetch('/confirmfinishedlessonnotice')
               }
             }
 
-            confirmationDiv.innerHTML = html;
+            if (confirmationDiv)   confirmationDiv.innerHTML = html;
         });
 
 

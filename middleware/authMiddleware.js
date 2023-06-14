@@ -44,6 +44,30 @@ const checkUser = (req, res, next) => {
     }
   };
 
+  const checkAdmin = (req, res, next) => {
+    const token = req.cookies.jwt;
+    if (token) {
+      jwt.verify(token, 'My secret key', async (err, decodedToken) => {
+        if (err) {
+          res.locals.user = null;
+          next();
+        } else {
+          let user = await User.findById(decodedToken.id);
+          if (user.admin === true) {
+            res.locals.user = user; 
+           next();
+            }  
+            else {
+         return res.redirect('/accesdenied');
+                } 
+           }
+      });
+    } else {
+      res.locals.user = null;
+      next();
+    }
+  };
+
   const checkTeachers = (req, res, next) => {
     const token = req.cookies.jwt;
     if (token) {
@@ -81,4 +105,4 @@ const checkUser = (req, res, next) => {
 
 
 
-module.exports = { requireAuth,checkUser,verifyUser ,checkTeachers};
+module.exports = { requireAuth,checkUser,verifyUser ,checkTeachers,checkAdmin};

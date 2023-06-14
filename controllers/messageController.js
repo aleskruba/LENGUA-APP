@@ -71,28 +71,6 @@ module.exports.createNewMessage_post = async (req, res, next) => {
 };
 
 
-/* module.exports.updateChatThread_put = async (req, res) => {
-  try {
-    // Extract data from request body
-    const { messageId, newMessageOrReply, idOfSenderOrReceiver } = req.body;
-
-    // Find and update the document based on messageId
-    const updatedMessage = await Message.findOneAndUpdate(
-      { _id: messageId },
-      { 
-        $push: { threads: newMessageOrReply },
-        idOfSenderOrReceiver: idOfSenderOrReceiver
-      },
-      { new: true }
-    );
-
-    // Send success response
-    res.status(200).json({ message: 'Chat thread updated successfully', updatedMessage });
-  } catch (error) {
-    // Handle error and send error response
-    res.status(500).json({ error: 'Failed to update chat thread', details: error.message });
-  }
-}; */
 
 
 module.exports.studentMessage_get = async (req, res, next) => {
@@ -129,8 +107,15 @@ module.exports.studentMessage_get = async (req, res, next) => {
 
 
 
-module.exports.studentMessages_get = async (req, res,next) => {
+const mongoose = require('mongoose');
+
+module.exports.studentMessages_get = async (req, res, next) => {
   const id = req.params.id;
+  console.log(id.length)
+ 
+  if (id.length !== 24) {  res.redirect('/accesdenied'); next()};
+
+ 
   const token = req.cookies.jwt;
 
   if (token) {
@@ -141,25 +126,31 @@ module.exports.studentMessages_get = async (req, res,next) => {
       } else {
         let user = await User.findById(decodedToken.id);
         res.locals.user = user;
-    
+
         try {
+          // Check if id is a valid ObjectId
+          if (!mongoose.isValidObjectId(id)) {
+            console.log('Invalid id format');
+            // Handle the error condition as needed, e.g., return an error response or redirect to an error page
+            return;
+          }
+
           const messageObject = await Message.findById(id);
           const messagesArray = await Message.find({ receiverId: user.idUser });
 
-          let messagesArrayUpdate = []
-            for (let i of messagesArray){
-                messagesArrayUpdate.push(i)
-                 
-            }
-
-     
-
+  
+          let correctParams = []
+          messagesArray.forEach((element) => {correctParams.push(element._id.toString()) }) 
+          if (!correctParams.includes(id)) {{ res.redirect('/accesdenied'); next();}}
+    
+          let messagesArrayUpdate = [];
+          for (let i of messagesArray) {
+            messagesArrayUpdate.push(i);
+          }
 
           // Check if the current user is the receiver or sender of the message
-          if (messageObject.receiver_id == user.id.toString()|| messageObject.sender_id == user.id.toString()) {
+          if (messageObject.receiver_id == user.id.toString() || messageObject.sender_id == user.id.toString()) {
             res.render('studentMessageIDnext', { messageObject: messageObject, messagesArrayUpdate: JSON.stringify(messagesArrayUpdate).replace(/'/g, "\\'"), moment: moment });
-
- 
           } else {
             // If the current user is neither the receiver nor the sender, return an error or redirect to a different page
             res.status(403).render('accesdenied');
@@ -331,6 +322,9 @@ module.exports.teacherstudentMessage_get = async (req, res,next) => {
 
 module.exports.teacherstudentMessageID_get = async (req, res,next) => {
   const id = req.params.id;
+
+  if (id.length !== 24) {  res.redirect('/accesdenied'); next()};
+
   const token = req.cookies.jwt;
 
   if (token) {
@@ -345,6 +339,16 @@ module.exports.teacherstudentMessageID_get = async (req, res,next) => {
         try {
           const messageObject = await Message.findById(id);
           const messagesArray = await Message.find({ senderId: user.idUser });
+
+
+
+          let correctParams = []
+          messagesArray.forEach((element) => {correctParams.push(element._id.toString()) }) 
+          if (!correctParams.includes(id)) {{ res.redirect('/accesdenied'); next();}}
+
+
+
+
 
           let messagesArrayUpdate = []
             for (let i of messagesArray){

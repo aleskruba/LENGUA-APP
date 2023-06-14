@@ -50,8 +50,7 @@
           for (let lesson of lessons) {
             lessonDatesArray.push(lesson.timeSlot);}
       
-        console.log('datesArray: ',datesArray)
-        console.log('lessnoDatesArray: ',lessonDatesArray.flat())
+    
 
      
         const calendar = (containerEl) => {
@@ -180,7 +179,7 @@
             isConfirmedLesson = true
            })
 
-           console.log(isConfirmedLesson)
+    
             
          
            const timeSlotHtml = `
@@ -229,7 +228,7 @@
             //////   HERE  IS EVENT LISTENER //////
               let toggleButton ;
               timeSlotEl.addEventListener('click', () => {
-                console.log(timeSlotEl)
+             
 
                 const selectedTimeSlotEl = scheduleContainer.querySelector('.schedule-time-slot-selected');
              
@@ -249,20 +248,19 @@
                 const dateTimeslot1 = dateTime.valueOf();
 
                     const utcDateTime = moment.utc(date.format('YYYY-MM-DD') + ' ' + time.format('HH:mm')).valueOf();
-                    console.log('datetime: ',dateTime.format('MMMM D, YYYY h:mm A') )
-                    console.log('utc: ',utcDateTime)
+                
 
 
                   if (datesArray.includes(utcDateTime.toString())) 
                     {  timeSlotEl.classList.remove('schedule-time-slot-selected'); 
                      const index = datesArray.indexOf(utcDateTime.toString());
                       datesArray.splice(index, 1);
-                      console.log(datesArray)
+                
                     }
                  else {
                     timeSlotEl.classList.add('schedule-time-slot-selected');
                     datesArray.push(utcDateTime.toString())
-                    console.log(datesArray)
+              
                   }
                
       
@@ -328,7 +326,7 @@ const calendarContainer = document.querySelector('#calendar-container');
       const myCalendar = calendar(calendarContainer);
 
       calendarContainer.addEventListener('dateSelected', (event) => {
-        console.log(event.detail);
+       
       });
 
 

@@ -1,0 +1,53 @@
+<%- include('partials/header'); -%>
+
+
+<link rel="stylesheet" href="/allusersID.css">
+
+
+
+  <div class="selectedUserGrid">
+
+  <div class="leftColumn">
+      <div class="leftColumnRow">
+        <div class="leftColumnRowCell">id</div>
+        <div class="leftColumnRowCell">student First Name</div>
+        <div class="leftColumnRowCell">student Last Name</div>
+        <div class="leftColumnRowCell">student Country</div>
+        <div class="leftColumnRowCell">teacherFirstName</div>
+        <div class="leftColumnRowCell">teacher LastName</div>
+        <div class="leftColumnRowCell">teacher Country</div>
+        <div class="leftColumnRowCell">timeSlot</div>
+        <div class="leftColumnRowCell">isReserved</div>
+        <div class="leftColumnRowCell">isConfirmed</div>
+        <div class="leftColumnRowCell">isRejected</div>
+        <div class="leftColumnRowCell">isCompleted</div>
+        <div class="leftColumnRowCell">completed Problem</div>
+        <div class="leftColumnRowCell">reserved by student </div>
+        <div class="leftColumnRowCell">confirmed by teacher </div>
+        <div class="leftColumnRowCell">confirmed by studentAt:</div>  
+    </div>
+    </div>
+      
+  <div class="rightColumn">
+        <div class="rightColumnRow">
+            <div class="leftColumnRowCell"><%= lesson._id %></div>
+            <div class="leftColumnRowCell"><input type="text"  id="studentFirstName" value="<%- lesson.studentFirstName %>" disabled></div>
+            <div class="leftColumnRowCell"><input type="text"  id="studentLastName" value="<%= lesson.studentLastName %>" disabled></div>
+            <div class="leftColumnRowCell"><input type="text"  id="studentCountry" value="<%= lesson.studentCountry %>" disabled></div>
+            <div class="leftColumnRowCell"><input type="text"  id="teacherFirstName" value="<%= lesson.teacherFirstName %>" disabled></div>
+            <div class="leftColumnRowCell"><input type="text"  id="teacherLastName" value="<%= lesson.teacherLastName %>" disabled></div>
+            <div class="leftColumnRowCell"><input type="text"  id="teacherCountry" value="<%= lesson.teacherCountry %>" disabled></div>
+            <div class="leftColumnRowCell"><%= moment(parseInt(lesson.timeSlot)).utc().format("DD MMMM HH:mm") %> - <%= moment(parseInt(lesson.timeSlot)).add(1, 'hour').utc().format("HH:mm") %></div>
+            <div class="leftColumnRowCell"><input type="text"  id="isReserved" value="<%- lesson.isReserved %>" disabled></div>
+            <div class="leftColumnRowCell"><input type="text"  id="isConfirmed" value="<%= lesson.isConfirmed %>" disabled></div>
+            <div class="leftColumnRowCell"><input type="text"  id="isRejected" value="<%= lesson.isRejected %>" disabled></div>
+            <div class="leftColumnRowCell"><input type="text"  id="isCompleted" value="<%= lesson.isCompleted %>" disabled></div>
+            <div class="leftColumnRowCell"><input type="text"  id="completedProblem" value="<%= lesson.completedProblem %>" disabled></div>
+            <div class="leftColumnRowCell"><input type="text"  id="reservedByStudentcreatedAt" value="<%= lesson.reservedByStudentcreatedAt %>" disabled></div>
+            <div class="leftColumnRowCell"><input type="text"  id="confirmedByteacherAt" value="<%= lesson.confirmedByteacherAt %>" disabled></div>
+            <div class="leftColumnRowCell"><input type="text"  id="completedConfirmedByStudentAt" value="<%= lesson.completedConfirmedByStudentAt %>" disabled></div>
+          </div>
+    </div>
+  </div>
+
+  

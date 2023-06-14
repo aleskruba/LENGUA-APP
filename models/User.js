@@ -33,6 +33,10 @@ const userSchema = new mongoose.Schema({
     profile:{type: String},
     learnlang:{type: [String]},
     teacherType:{type: String},
+    admin: 
+    { type: Boolean,
+       default: false
+    },
     teachlang: {
         type: [String],
          },    

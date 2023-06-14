@@ -2,7 +2,8 @@ const { Router } = require('express');
 const authController = require('../controllers/authController');
 const lessonController = require('../controllers/lessonController');
 const messageController = require('../controllers/messageController');
-const { requireAuth, checkUser,verifyUser,checkTeachers} = require('../middleware/authMiddleware');
+const adminController = require('../controllers/adminController')
+const { requireAuth, checkUser,verifyUser,checkTeachers,checkAdmin} = require('../middleware/authMiddleware');
 
 const router = Router();
 
@@ -52,6 +53,7 @@ router.get('/getTeachingSlots',requireAuth,authController.getTeachingSlots)
 router.get('/wallet',requireAuth,authController.wallet_get) 
 
 router.get('/payment',requireAuth,authController.payment_get) 
+router.get('/withdraw',requireAuth,authController.withdraw_get) 
 
 router.get('/teachers',requireAuth,checkTeachers, authController.teachers_get) 
 router.get('/teachers/:id', requireAuth,checkTeachers,authController.teachers_getID)
@@ -60,8 +62,9 @@ router.get('/teachers/:id/slot', requireAuth,checkTeachers,authController.teache
 router.get('/teachersdata',requireAuth,checkTeachers, authController.teachers_data_get
 ) 
 
-router.get('/updateTransaction',requireAuth,authController.transaction_get) 
+router.post('/withdrawTransaction_post',requireAuth,authController.withdrawTransaction_post) 
 router.post('/updateTransaction',requireAuth,authController.transaction_post) 
+
 
 router.get('/policies',requireAuth,authController.policies_get) 
 
@@ -106,6 +109,30 @@ router.get('/teacherstudentmessage',requireAuth,messageController.teacherstudent
 router.get('/teacherstudentmessage/:id',requireAuth,messageController.teacherstudentMessageID_get) 
 router.put('/teacherstudentmessage',requireAuth,messageController.teacherstudentMessage_putID) 
 router.put('/teachermessageChangeStatus',requireAuth,messageController.teacherMessageChangeStatusPUT) 
+
+
+
+// admin
+
+
+router.get('/adminprofile',requireAuth, async (req, res) => {  res.render('adminprofile') }) 
+
+router.get('/banktransactions',checkAdmin,adminController.banktransactions) 
+router.get('/allusers',checkAdmin,adminController.allusers) 
+router.get('/allusers/:id',checkAdmin,adminController.allusersID) 
+router.put('/allusers/:id',adminController.allusersPUT) 
+
+router.get('/allclasses',checkAdmin,adminController.allclases) 
+router.get('/allclasses/:id',checkAdmin,adminController.allclasesID) 
+
+router.get('/changepasswordadmin/:id',checkAdmin,adminController.changePasswordAdminGet) 
+router.put('/changepasswordadmin/:id',checkAdmin,adminController.changePasswordAdminPut) 
+
+
+
+
+router.get('/accesdenied',adminController.accesdenied) 
+
 
 
 

@@ -1,0 +1,97 @@
+<%- include('partials/header'); -%>
+
+<link rel="stylesheet" href="/banktransactions.css">
+
+<div class="tablegridwrapper">
+  <div class="headerBank">
+    <div class="cell"><input type="text" placeholder="date" class="headerBankDate"></div>
+    <div class="cell"><input type="text" placeholder="student/teacher ID" class="headerBankID"></div>
+    <div class="cell"><input type="text" placeholder="amount (USD)" class="headerBankAmount"></div>
+    <div class="cell"><input type="text" placeholder="Current Balance" disabled></div>
+  </div>
+
+  <div class="tablegridwrapperOverflow">
+    <% transactionsArray
+      .sort(function(a, b) {
+        return moment(b.currentBalance.TransactedDay) - moment(a.currentBalance.TransactedDay);
+      })
+      .slice(0, 8) // Add this line to limit the array to the first 8 elements
+      .forEach(function(element) { %>
+       
+        
+        <% if (element.moneyDepositedByStudent.idStudent) { %>
+          <div class="row">
+            <div class="cell"><%= moment(element.currentBalance.TransactedDay).format('YYYY-MM-DD HH:mm') %></div>
+            <div class="cell"><%= element.moneyDepositedByStudent.idStudent %></div>
+            <div class="cell"><%= element.moneyDepositedByStudent.amount %></div>
+            <div class="cell"><%= element.currentBalance.currentBalance %></div>
+          </div>
+        <% } else { %>
+          <div class="row">
+            <div class="cell"><%= moment(element.currentBalance.TransactedDay).format('YYYY-MM-DD HH:mm') %></div>
+            <div class="cell"><%= element.moneyWithdrawnByTeacher.idTeacher %></div>
+            <div class="cell"><%= element.moneyWithdrawnByTeacher.amount %></div>
+            <div class="cell"><%= element.currentBalance.currentBalance %></div>
+          </div>
+        <% } %>
+
+    
+        <% }); %>
+    <% if (transactionsArray.length > 8) { %> 
+      <div class="row ellipsis-row">
+        <div class="cell" colspan="4">...and <%= transactionsArray.length - 8 %> more transactions</div>
+      </div>
+      <% } %>
+  </div>
+</div>
+
+<%- include('partials/footer'); -%>
+
+<script>
+
+const transactionsRows = document.querySelectorAll('.tablegridwrapperOverflow .row');
+
+const headerBankDate = document.querySelector('.headerBankDate');
+const headerBankID = document.querySelector('.headerBankID');
+const headerBankAmount = document.querySelector('.headerBankAmount');
+
+headerBankDate.addEventListener('input', handleSearch);
+headerBankID.addEventListener('input', handleSearch);
+headerBankAmount.addEventListener('input', handleSearch);
+
+function handleSearch() {
+  const searchDate = headerBankDate.value.toLowerCase();
+  const searchID = headerBankID.value.toLowerCase();
+  const searchAmount = headerBankAmount.value.toLowerCase();
+
+  transactionsRows.forEach(function(row) {
+    const dateCell = row.querySelector('.cell:nth-child(1)');
+    const idCell = row.querySelector('.cell:nth-child(2)');
+    const amountCell = row.querySelector('.cell:nth-child(3)');
+
+    if (dateCell && idCell && amountCell) {
+      const dateValue = dateCell.textContent.toLowerCase();
+      const idValue = idCell.textContent.toLowerCase();
+      const amountValue = amountCell.textContent.toLowerCase();
+
+      const matchesSearch =
+        dateValue.includes(searchDate) &&
+        idValue.includes(searchID) &&
+        amountValue.includes(searchAmount);
+
+      if (matchesSearch) {
+        row.style.display = 'grid';
+      } else {
+        row.style.display = 'none';
+      }
+    }
+  });
+
+  const ellipsisRow = document.querySelector('.ellipsis-row');
+    if (ellipsisRow) {
+      ellipsisRow.style.display = 'none';
+    }
+}
+</script>
+
+</script>

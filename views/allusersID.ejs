@@ -1,0 +1,184 @@
+<%- include('partials/header'); -%>
+
+
+<link rel="stylesheet" href="/allusersID.css">
+
+
+  <form class="selectedUserGriduserForm">
+    <div class="selectedUserTop">
+          <div class="selectedUserTopImgDiv">
+            <img src="<%= selectedUser.profile %>" class="selectedUserTopImg" alt="">
+          </div>
+            <input type="text" placeholder="img"  value="<%- selectedUser.profile%>"  id="searchInputImg" style="width: 500px;" >
+    </div>
+
+  <div class="selectedUserGrid">
+
+  <div class="leftColumn">
+      <div class="leftColumnRow">
+        <div class="leftColumnRowCell">id</div>
+        <div class="leftColumnRowCell">sec ID</div>
+        <div class="leftColumnRowCell">email</div>
+        <div class="leftColumnRowCell">first name</div>
+        <div class="leftColumnRowCell">last name</div>
+        <div class="leftColumnRowCell">country</div>
+        <div class="leftColumnRowCell">phone</div>
+        <div class="leftColumnRowCell">learn. lang.</div>
+        <div class="leftColumnRowCell">isTeacher</div>
+        <div class="leftColumnRowCell">teach. lang</div>
+        <div class="leftColumnRowCell">teacherType</div>
+        <div class="leftColumnRowCell">tax</div>
+        <div class="leftColumnRowCell">profile Text</div>
+        <div class="leftColumnRowCell">profile Video</div>
+      </div>
+    </div>
+      
+  <div class="rightColumn">
+        <div class="rightColumnRow">
+            <div class="leftColumnRowCell"><%= selectedUser._id %></div>
+            <div class="leftColumnRowCell"><input type="text" placeholder="sec. ID" id="searchInputSecID" value="<%- selectedUser.idUser %>"></div>
+            <div class="leftColumnRowCell"><input type="text" placeholder="email" id="searchInputEmail" value="<%= selectedUser.email %>"></div>
+            <div class="leftColumnRowCell"><input type="text" placeholder="first name" id="searchInputFirstName" value="<%= selectedUser.firstName %>"></div>
+            <div class="leftColumnRowCell"><input type="text" placeholder="last name" id="searchInputLastName" value="<%= selectedUser.lastName %>"></div>
+            <div class="leftColumnRowCell"><input type="text" placeholder="country" id="searchInputCountry" value="<%= selectedUser.country %>"></div>
+      
+            <div class="leftColumnRowCell"><input type="text" placeholder="phone" id="searchInputPhone" value="<%= selectedUser.phone %>"></div>
+          
+            <div class="leftColumnRowCell">
+              <% selectedUser.learnlang.forEach(function(lang, index) { %>
+                <div class="leftColumnRowCellArray" id="learnLangID" onclick="deleteLearnLanguage('<%= lang %>', '<%= index %>')"><div id='<%= index %>'><%= lang %></div></div>
+              <% }); %>
+            </div>
+            <div class="leftColumnRowCell">
+              <input type="text" placeholder="isTeacher" id="searchInputIsTeacher" value="<%= selectedUser.isTeacher %>">
+            </div>
+            <div class="leftColumnRowCell">
+              <% selectedUser.teachlang.forEach(function(lang, index) { %>
+                <div class="leftColumnRowCellArray" id="teachLangID" onclick="deleteTEachLanguage('<%= lang %>', '<%= index %>')"><div id='t<%= index %>'><%= lang %></div></div>
+              <% }); %>
+            </div>
+
+            <div class="leftColumnRowCell"><input type="text" placeholder="isTeacher" id="searchInputTeacherType" value="<%= selectedUser.teacherType %>"></div>
+            <div class="leftColumnRowCell"><input type="text" placeholder="country" id="searchInputTax" value="<%= selectedUser.tax %>"></div>
+            <div class="leftColumnRowCell"><input type="text" placeholder="country" id="searchInputProfileText" value="<%= selectedUser.profileText %>"></div>
+            <div class="leftColumnRowCell"><input type="text" placeholder="country" id="searchInputProfileVideos" value="<%= selectedUser.profileVideo %>"></div>
+    
+
+          </div>
+    </div>
+  </div>
+  <div class="selectedUserUpdatedSucess"><h2 class="selectedUserUpdatedSucessH2" style="display: none;">Updated succesfully</h2></div>
+  <div class="selectedUserBottom">
+    <button type="submit"  onclick="updateSelectedUser('<%= selectedUser.idUser %>')" class="updateSelecetedUserButton">UPDATE</button>
+    <a id="changePasswordLink" href="#">  <button type="button" class="changePasswordSelectedUser">CHANGE PASSWORD</button></a>
+
+    <button  onclick="cancelSelectedUser()" class="cancelSelecetedUserButton">CANCEL</button>
+  </div>
+  
+ 
+ 
+ <script>
+    const learnLangID = document.getElementById('learnLangID');
+    const teachLangID = document.getElementById('teachLangID');
+  
+    let LearnArray = JSON.parse('<%- JSON.stringify(selectedUser.learnlang) %>');
+    let TeachArray = JSON.parse('<%- JSON.stringify(selectedUser.teachlang) %>');
+  
+    let newLearnArray;
+    let newTeachArray;
+
+    const userId = '<%- JSON.stringify(selectedUser.idUser) %>' // Replace with the appropriate user ID
+    const changePasswordLink = document.getElementById('changePasswordLink');
+     changePasswordLink.href = `/changepasswordadmin/${userId}`;
+
+console.log(`${'<%- JSON.stringify(selectedUser.idUser) %>'}`)
+
+    function changePasswordSelectedUser(){
+      location.assign(`/changepasswordadmin/${'<%- JSON.stringify(selectedUser.idUser) %>'}`);
+    }
+  
+    function deleteLearnLanguage(lang, index) {
+      LearnArray.splice(index, 1);
+      newLearnArray = LearnArray.slice();
+      document.getElementById(index).remove();
+    }
+  
+    function deleteTEachLanguage(lang, index) {
+      TeachArray.splice(index, 1);
+      newTeachArray = TeachArray.slice();
+      document.getElementById(`t${index}`).remove();
+    }
+
+  const selectedUserUpdatedSuccess = document.querySelector('.selectedUserUpdatedSucess');
+ 
+  async function  updateSelectedUser(userId)  {
+
+const profileImg = document.getElementById('searchInputImg');
+const secIdInput = document.getElementById('searchInputSecID');
+const emailInput = document.getElementById('searchInputEmail');
+const firstNameInput = document.getElementById('searchInputFirstName');
+const lastNameInput = document.getElementById('searchInputLastName');
+const countryInput = document.getElementById('searchInputCountry');
+const phoneInput = document.getElementById('searchInputPhone');
+const isTeacherInput = document.getElementById('searchInputIsTeacher');
+const teacherTypeInput = document.getElementById('searchInputTeacherType');
+const taxInput = document.getElementById('searchInputTax');
+const profileTextInput = document.getElementById('searchInputProfileText');
+const profileVideosInput = document.getElementById('searchInputProfileVideos');
+//const learnLangInput = document.getElementById('searchInputLearnLang');
+//const teachLangInput = document.getElementById('searchInputTeachLang');
+
+const updateData = {
+
+  idUser: Number(secIdInput.value),
+  email: emailInput.value,
+  firstName: firstNameInput.value,
+  lastName: lastNameInput.value,
+  country: countryInput.value,
+  phone: phoneInput.value,
+  isTeacher: isTeacherInput.value,
+  teacherType: teacherTypeInput.value,
+  tax: Number(taxInput.value),
+  profileText: profileTextInput.value,
+  profileVideo: profileVideosInput.value,
+  profile:profileImg.value,
+  learnlang: newLearnArray, // Include the newLearnArray field
+  teachlang:newTeachArray
+  }
+
+
+
+
+
+try {
+  console.log(updateData)
+      const res = await fetch(`/allusers/${userId}`, {
+      method: 'PUT',
+      body: JSON.stringify(updateData),
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin' // Optional, to maintain the same origin behavior
+
+    });
+    const data = await res.json();
+     if (data.errors) {
+      emailError.textContent = data.errors.email;
+    }
+    else {
+      location.assign(`/allusers/${idUser}`);
+    }
+  }
+  catch (err) {
+   console.log('error', err)
+  }
+
+}
+
+  const cancelSelectedUser = () => {
+    // Implement the cancel functionality here if needed
+  };
+</script>
+
+
+
+  
+<%- include('partials/footer'); -%>

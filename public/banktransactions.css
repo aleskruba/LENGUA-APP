@@ -1,0 +1,84 @@
+.tablegridwrapper {
+    display: grid;
+    gap: 10px;
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .tablegridwrapper .headerBank {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    font-weight: bold;
+    background-color: #f1f1f1;
+    padding: 10px;
+  }
+
+  .tablegridwrapper .row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    background-color: #fff;
+    padding: 10px;
+  }
+
+  .tablegridwrapper .row:nth-child(even) {
+    background-color: #f1f1f1;
+  }
+
+  .tablegridwrapper .row .cell {
+    padding: 5px;
+    border: 1px solid #ccc;
+  }
+
+
+  .tablegridwrapperOverflow {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #f5f5f5;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .tablegridwrapperOverflow::-webkit-scrollbar {
+    width: 8px;
+    background-color: #f5f5f5;
+  }
+  
+  .tablegridwrapperOverflow::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+  }
+  
+  .tablegridwrapperOverflow::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+  }
+  
+  .tablegridwrapperOverflow::-webkit-scrollbar-track {
+    background-color: #f5f5f5;
+  }
+  
+
+  @media (max-width: 767px) {
+    .tablegridwrapper .row .cell {
+      font-size: 12px;
+    }
+
+      .tablegridwrapper .headerBank {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    font-weight: bold;
+    background-color: #f1f1f1;
+    padding: 10px;
+  }
+
+  .tablegridwrapper .row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    background-color: #fff;
+    padding: 10px;
+  }
+  }
+  
