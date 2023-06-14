@@ -1,4 +1,5 @@
 {
+  "version": 2,
   "builds": [
     {
       "src": "app.js",
@@ -8,11 +9,20 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "app.js"
+      "dest": "/app.js"
+    },
+    {
+      "src": "/public/(.*)",
+      "dest": "/public/$1"
+    },
+    {
+      "src": "/views/(.*)",
+      "dest": "/views/$1"
     },
     {
       "src": "/(.*)",
-      "dest": "app.js"
+      "dest": "/app.js"
     }
   ]
 }
+
