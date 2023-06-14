@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt')
 const nodemailer = require('nodemailer');
 const otpGenerator = require('otp-generator')
+const path = require('path');
 var moment = require('moment'); // require
 moment().format(); 
 
@@ -496,7 +497,11 @@ module.exports.getTeachLanguage_get = async (req, res,next) => {
 
 module.exports.teacherZoneUpdateGet = (req, res) => {
 
-  const rawData = fs.readFileSync('./public/languages.json');
+  const rawData = fs.readFileSync(path.join(__dirname, '..', 'public', 'languages.json'));
+
+
+
+
   const data = JSON.parse(rawData);
   const languages = JSON.stringify(data);
   const token = req.cookies.jwt;
@@ -713,7 +718,11 @@ const ejs = require('ejs');
 const fs = require('fs');
 const Account = require("../models/Account");
 
-const rawData = fs.readFileSync('./public/languages.json');
+const rawData = fs.readFileSync(path.join(__dirname, '..', 'public', 'languages.json'));
+
+
+
+
 const data = JSON.parse(rawData);
 const languages = JSON.stringify(data);
 
