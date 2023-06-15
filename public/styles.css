@@ -1108,7 +1108,9 @@ font-family: 'Poppins', sans-serif;
 }
 
 
-
+.secretdata{
+  background: #1E90FF;
+}
 
 .teacherZoneMenuMyLessonsUL {
   display: none;
