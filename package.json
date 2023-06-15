@@ -8,6 +8,7 @@
   },
   "scripts": {
     "start": "node app.js",
+    "build": "echo 'Build step not required'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -37,3 +38,4 @@
     "world-countries": "^4.0.0"
   }
 }
+
