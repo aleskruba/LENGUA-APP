@@ -749,13 +749,22 @@ module.exports.teachers_getID = async (req, res) => {
     const messagesArray = await Message.find({ receiverId: id });
     const lessonArray = await Lesson.find({ SecondaryIdTeacher: id });
 
+  
+      const uniqueStudents = new Set();
+      for (const lesson of lessonArray) {
+        const idStudent = lesson.idStudent;
+        uniqueStudents.add(idStudent);
+      }
+      let totalStudents = uniqueStudents.size
+      
 
 
     res.render('teacherId', {
       teacher: teacher,
       moment: moment,
       messagesArray: JSON.stringify(messagesArray),
-      lessonArray:lessonArray
+      lessonArray:lessonArray,
+      totalStudents:totalStudents
     });
   } catch (err) {
     console.log(err);

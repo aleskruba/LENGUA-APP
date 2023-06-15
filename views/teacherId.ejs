@@ -23,13 +23,21 @@
         <p class="teacherCardBoxTitlePtag"> Teaching </p>
       </div>
       <div class="teacherCardBoxLanguages">
-       <p class="teacherCardBoxLanguagesPtag">  <% teacher.teachlang.forEach(function(country) { %>
-        <p class="teacherCardBoxLanguagesPtag"><%= country %>  &nbsp; </p>
+       <p class="teacherCardBoxLanguagesPtag">  <% teacher.teachlang.forEach(lang => { %>
+        <p class="teacherCardBoxLanguagesPtag"> <div class="teacherCardBoxLanguagesLanguage"><%= lang %></div> </p>
       <% }); %></p>
       </div>
     </div>
 
   </div>
+
+  <div class="teacherRanking">
+    <div class="teacherRankingInner">  
+      <div class="teacherRankingStudents">Total students : <%=  totalStudents %> <div></div> </div>
+      <div class="teacherRankingLessons">Total classes : <%= lessonArray.length %></div>
+
+  </div>
+</div>
  
   <div class="teacherProfileText">
       <div class="teacherProfileTextInner">

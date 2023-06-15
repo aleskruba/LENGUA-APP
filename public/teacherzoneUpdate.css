@@ -5,8 +5,15 @@
     justify-content: center;
 }
 
+.updateteacherZoneUpper{
+	position: absolute;	
+	top:120px;
+	left:0px;
+}
 
 .teacherZoneSchedule{
+
+	
 	margin-top: 10px;
 	margin-bottom: 10px;
 	margin-left: 200px;
@@ -27,6 +34,7 @@
 }
 
 .updateteacherZoneMain{
+	margin-top: 50px;
     display: flex;
     flex-wrap: wrap;
 }
